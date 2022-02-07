@@ -1,46 +1,36 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- создай отдельно папку  src/contexts 
 
-## Available Scripts
 
-In the project directory, you can run:
+- на каждый контекст отдельный файл, их скорее всего будет у нас много 
 
-### `npm start`
+    примерно так :src/contexts/walletContext.tsx
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+-  в самом фале надо создат соответственный контекст и компоненту-обертку: провайдер 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+    в верху файла создай контекст и внизу файла создай отдельно компоненту 
+    которая возвращает провайдер созданого тобой контекста 
 
-### `npm test`
+внутри этого провайдера создай стейт который будешь прокидывать в провайдер 
+напривмер значение кошелька и функцыю подключения кошелька
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+для этого используй хук usestate()
 
-### `npm run build`
+создание контекста - const walletContext = React.createContext() без аргументов
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+провайдер - вызов поля провайдер из контекста <walletContext.Provider value={getwalletFunction}>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+в файле src/index.tsx оберни компоненту App в созданый тобой провайдер(компоненту обертку)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+после этого все что ты засунешь в атрибут value можо будет достать внутри дочернего 
+дерава компонент используя хук useContext
+const {getwalletFunction} = useContext(walletContext); 
 
-### `npm run eject`
+можно попробовать поиграться с состоянием контекста и функцыей изменения состояния не прибегая к Taquito 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
