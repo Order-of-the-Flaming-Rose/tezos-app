@@ -1,0 +1,59 @@
+/* flex properties */
+%flex {
+  display: flex
+}
+%inline-flex {
+  display: inline-flex;
+}
+%flex-wrap {
+  flex-wrap: wrap;
+}
+%flex-no-wrap {
+  flex-wrap: nowrap;
+}
+%flex-column {
+  flex-direction: column;
+}
+
+/* display properties */
+%border-box {
+  box-sizing: border-box;
+}
+
+/* theme properties */
+%theme-color {
+  color: var(--theme-color);
+}
+%theme-bg-color {
+  background-color: var(--theme-color);
+}
+%theme-bg-gradient {
+  background-color: var(--theme-gradient-color);
+}
+
+/* position properties */
+%sticky {
+  position: sticky;
+  top: 0;
+}
+%relative {
+  position: relative;
+}
+%absolute {
+  position: absolute;
+}
+%absolute-center {
+  @extend %absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+%fixed {
+  position: fixed;
+}
+%fixed-center {
+  @extend %absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

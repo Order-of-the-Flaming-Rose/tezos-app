@@ -1,0 +1,50 @@
+$media-unit: "px";
+$mobile-breakpoint: 760;
+$tablet-breakpoint: 761;
+$desktop-breackpoint: 960;
+
+// Миксин устанавливает медиа запрос 
+// Принимает один обязательный параметр.
+// В случае передачи  одного строкового значения, будет сгенерирован меди запрос с установленным типом устройства в это значение.
+// В случае передачи  одного числового значения, будет сгенерирован меди запрос с установленным min-width в это значение.
+// В случае передачи 2х числовых значений через пробел, будет сгенерирован медиа запрос 
+// на основе "(min-width: $value_2) and (max-width: $value_1)"
+// !!!!!Единицы измерения в контрольных значениях можно не указывать, в этом случае используются единицы указанные в $media-unit.
+@mixin adaptive($media) {
+  @if(length($media) == 1 and type-of(nth($media, 1)) == string) {
+      $type: nth($media, 1);
+      @media #{$type} {
+          @content;
+      }
+  }
+  @if(type-of(nth($media, 1)) == number) {
+      $media: chekUnit($media); // функция дописывает $media-unit, если не указаны единицы измерения.
+      @if(length($media) == 2) {
+        @media only screen and (min-width: nth($media, 2) + 1) and (max-width: nth($media, 1) - 1) {
+            @content;
+        }
+      }@else {
+        @media only screen and (min-width: nth($media, 1) - 1) {
+            @content;
+        }
+      }
+  }
+}
+
+@mixin media-desktop ($value: $desktop-breackpoint) {
+  @include adaptive($value) {
+    @content;
+  }
+}
+
+@mixin media-tablet ($value: $tablet-breakpoint) {
+  @include adaptive($value) {
+    @content;
+  }
+}
+
+@mixin media-landscape () {
+  @include adaptive("screen and (orientation:landscape) and (max-width: 760px)") {
+    @content;
+  }
+}

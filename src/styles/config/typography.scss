@@ -1,0 +1,29 @@
+$h1: 36px;
+$h2: 24px;
+$medium: 20px;
+$basic: 18px;
+$caption: 14px;
+$subcaption: 12px;
+$extrasmall: 11px;
+
+$font-sizes: (
+  'h1': $h1,
+  'h2': $h2,
+  'medium': $medium,
+  'basic': $basic,
+  'caption': $caption,
+  'subcaption': $subcaption,
+  'extrasmall': $extrasmall
+);
+
+$weight-bold: 700;
+$weight-medium: 500;
+$weight-normal: 400;
+$weight-light: 300;
+
+$font-weights: (
+  'bold': $weight-bold,
+  'medium': $weight-medium,
+  'normal': $weight-normal,
+  'light': $weight-light
+);

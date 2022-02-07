@@ -1,0 +1,26 @@
+@function chekUnit($media) {
+  $strings: 'px' 'cm' 'mm' '%' 'ch' 'pica' 'in' 'em' 'rem' 'pt' 'pc' 'ex' 'vw' 'vh' 'vmin' 'vmax';
+  $units:   1px  1cm  1mm  1%  1ch  1pica  1in  1em  1rem  1pt  1pc  1ex  1vw  1vh  1vmin  1vmax;
+  $tmp: ();
+  @each $key in $media {
+      @if(unitless($key)) {
+          $index: index($strings, $media-unit);
+          @if not $index {
+              @error "Unknown media unit `#{$media-unit}`.";
+          }
+          $key: $key * nth($units, $index);
+      }
+      $tmp: append($tmp, $key);  
+  }
+  @return $tmp; 
+}
+
+// считает размер шрифта относитель размера области просмотра с заданной пропорцией
+@function bridge($y1, $y2, $w-max, $w-min) {
+    $m: ($y2 - $y1)/($w-max - $w-min);
+    $b: $y1 - $m * $w-min + "px";
+    $m: $m * 100vw; 
+    @debug #{$m} + #{$b};
+    $y: "calc(#{$m} + #{$b})";
+    @return unquote($y);
+} 
