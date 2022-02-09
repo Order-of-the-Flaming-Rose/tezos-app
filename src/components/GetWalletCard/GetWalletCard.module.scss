@@ -1,0 +1,12 @@
+.getwalletcard{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    &__btn{
+        padding: 3px 8px;
+        font-size: 24px;
+        border-radius: 8px;
+        border: solid 0.1px grey;
+    }
+}
