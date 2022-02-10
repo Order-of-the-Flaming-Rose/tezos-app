@@ -1,15 +1,14 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import React from 'react';
+import { useAuthContext } from '../../contexts/AuthContext/AuthContext';
 import styles from './SendCard.module.scss';
 
 function SendCard() {
-  const data = {
-    discord: 'Vova#0000',
-    telegram: '@Vovchanchyk',
-    wallet: 'tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq',
-  };
+  const { state } = useAuthContext();
 
-  const list = Object.entries(data);
+  const list = Object.entries(state);
+  list.pop();
 
   return (
     <div className={styles.sendcard}>
@@ -18,13 +17,16 @@ function SendCard() {
         <ul className={styles.sendcard__list}>
           {list.map((val) => {
             return (
-              <li>
-                <span>{val[0]}</span>
-                <span>{val[1]}</span>
+              <li className={styles.sendcard__item}>
+                <span className={styles.sendcard__name}>{val[0]} :</span>
+                <span className={styles.sendcard__value}>{val[1]}</span>
               </li>
             );
           })}
         </ul>
+        <button className={styles.sendcard__btn} type='submit'>
+          send data
+        </button>
       </div>
     </div>
   );

@@ -1,0 +1,22 @@
+.input {
+    &__container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 70%;
+    }
+
+    &__field {
+        padding: 6px 10px;
+        border-radius: 8px;
+        border: solid 0.1px grey;
+
+    }
+
+    &__error {
+        color: red;
+        border-width: 1px;
+        border-color: red;
+
+    }
+}
