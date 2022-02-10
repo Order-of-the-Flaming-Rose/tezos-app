@@ -22,5 +22,10 @@
   },
   "include": [
     "src"
-  ]
+  ],
+  "paths": {
+    "@services/*": ["services/*"],
+    "@components/*": ["components/*"],
+    "@errors/*": ["errors/*"],
+  }
 }
