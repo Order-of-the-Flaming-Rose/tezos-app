@@ -63,13 +63,15 @@
         //padding: 20px 20px;
         border: solid 0.1px grey;
         width: 400px;
-        height: 300px;
+        min-height: 300px;
+        height: auto;
         grid-column: 2/3;
         overflow: hidden;
         background-clip: content-box;
         display: grid;
         grid-template-rows: 100%;
         grid-template-columns: repeat(3, 100%);
+        padding-bottom: 30px;
         
     }
 

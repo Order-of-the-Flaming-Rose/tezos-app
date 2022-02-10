@@ -1,10 +1,14 @@
 {
     "cSpell.words": [
         "discrord",
+        "Formik",
+        "GETFORM",
+        "GETWALLET",
         "getwalletcard",
         "progresspoint",
         "sencard",
         "sendcard",
+        "STEPBACK",
         "userdata"
     ]
 }
