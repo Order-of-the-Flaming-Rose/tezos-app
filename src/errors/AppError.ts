@@ -11,9 +11,17 @@ import {
   NO_CONTENT,
   RESET_CONTENT,
   NOT_ACCEPTABLE,
-} from '@errors/codes';
+} from './codes';
 
-const errorMessages = {
+type err = {
+  message: string;
+  code: number;
+  type: string;
+  data?: any;
+};
+
+// зашить в enum
+const errorMessages: { [key: number]: string } = {
   [FORBIDDEN]: 'Доступ запрещен.',
   [UNAUTHORIZED]: 'Необходима авторизация',
   [SERVER_ERROR]: 'Ошибка сервера',
@@ -27,9 +35,20 @@ const errorMessages = {
   [RESET_CONTENT]: '',
   [NOT_ACCEPTABLE]: 'Недопустимое значение',
 };
-
 export default class AppError extends Error {
-  constructor({ message, code, type, data }) {
+  name: string;
+
+  type: string | any;
+
+  userText: string;
+
+  code: number;
+
+  originalMessage: string;
+
+  data: any;
+
+  constructor({ message, code, type, data }: err) {
     super(
       `
         code - ${code};

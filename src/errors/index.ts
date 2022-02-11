@@ -1,4 +1,3 @@
-import AppError from '@errors/AppError';
 import {
   FORBIDDEN,
   UNAUTHORIZED,
@@ -11,11 +10,20 @@ import {
   NON_AUTHORITATIVE,
   NO_CONTENT,
   RESET_CONTENT,
-} from '@errors/codes';
+} from './codes';
+import AppError from './AppError';
 
-export { default as AppError } from '@errors/AppError';
+export { default as AppError } from './AppError';
 
-export function createErr(err) {
+type errType = {
+  message: string;
+  code: number;
+  type?: string;
+  data?: any;
+  name?: string;
+};
+
+export function createErr(err: errType): AppError {
   if (err instanceof Error && err.message === 'Network Error') {
     return new AppError({
       message: 'Проблемы с сетевым соединением',
@@ -67,7 +75,7 @@ export function createErr(err) {
     default: {
       return new AppError({
         message: err.message,
-        type: err.name,
+        type: err.name || 'uncknown error',
         code: err.code,
       });
     }

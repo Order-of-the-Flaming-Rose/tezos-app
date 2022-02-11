@@ -1,7 +1,8 @@
+/* eslint-disable class-methods-use-this */
 import axios from 'axios';
-import { createErr } from '~/errors';
+import { createErr } from '../../errors';
 
-const baseConfig = {
+const baseConfig: { [key: string]: any } = {
   baseURL: '/',
   timeout: 0,
   responseType: 'json',
@@ -14,10 +15,18 @@ const baseConfig = {
   },
 };
 export default class HttpClient {
+  sender: any;
+
+  request: any;
+
+  unsuccessRequest: any;
+
+  config: any;
+
   constructor(config = {}) {
     this.sender = axios.create();
-    this._request = null;
-    this._unsuccessRequest = null;
+    this.request = null;
+    this.unsuccessRequest = null;
     this.config = Object.assign(baseConfig, config);
   }
 
@@ -25,9 +34,9 @@ export default class HttpClient {
     return axios.CancelToken;
   }
 
-  abort() {
-    if (this._request) {
-      this._request.cancel();
+  abort(): void {
+    if (this.request) {
+      this.request.cancel();
       this.request = null;
     }
   }
@@ -39,8 +48,8 @@ export default class HttpClient {
    * @returns axios result
    * @memberof HttpClient
    */
-  async send(config = {}) {
-    this._request = this.cancel.source();
+  async send(config = {}): Promise<any> {
+    this.request = this.cancel.source();
     const conf = Object.assign(this.config, config);
     if (!conf.headers) {
       conf.headers = {};
@@ -48,11 +57,11 @@ export default class HttpClient {
 
     conf.headers['X-Requested-With'] = 'XMLHttpRequest';
     conf.headers.Accept = 'application/json';
-    conf.cancelToken = this._request.token;
+    conf.cancelToken = this.request.token;
 
     try {
       return await this.sender(conf);
-    } catch (error) {
+    } catch (error: any) {
       if (error.response) {
         // Запрос был сделан, и сервер ответил кодом состояния
         // выпадающий из диапазона 2xx
@@ -60,6 +69,8 @@ export default class HttpClient {
         // console.log('error response', error.response.status)
         return Promise.reject(
           createErr({
+            type: '',
+            name: '',
             code: error.response.status,
             message: error.response.statusText,
             data: error.response.data,
@@ -74,14 +85,14 @@ export default class HttpClient {
         // console.log('error request', error.request)
         // что бы небыло рекурсии проверим что запрос есть
         // TODO надо проверить что-бы не отменялся какой другой параллельный запрос класс то один!!!
-        if (this._unsuccessRequest) {
-          this._unsuccessRequest.cancel();
-          this._unsuccessRequest = null;
+        if (this.unsuccessRequest) {
+          this.unsuccessRequest.cancel();
+          this.unsuccessRequest = null;
           this.abort();
           return Promise.reject(createErr(error));
         }
         // иначе создадим и вернем еще раз функцию с тем же конфигом
-        this._unsuccessRequest = this.cancel.source();
+        this.unsuccessRequest = this.cancel.source();
         // TODO наверное пропущен await ?
         //  нет  упущен ретурн
         return this.send(error.config);
