@@ -6,8 +6,8 @@ import { TAuthContextValue, TAuthValue } from './authTypes';
 export const initial: TAuthValue = {
   telegram: '',
   discord: '',
-  wallet: '',
-  step: 1,
+  wallet: 'kkkjhhhhhhhbvjkvljvuvcvtyicctrxutxr',
+  step: 3,
 };
 
 const defaultState: TAuthContextValue = {
