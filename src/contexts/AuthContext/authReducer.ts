@@ -13,7 +13,6 @@ export const authReducer = (
   state = initial,
   action: TActionAuth,
 ): TAuthValue => {
-  debugger;
   if (action.type === GETWALLET) {
     const copy = { ...state };
     copy.wallet = action.payload.wallet!;

@@ -28,7 +28,7 @@ function GetWalletCard() {
         type='button'
         onClick={() => handler()}
       >
-        connect your wallet
+        connect wallet
       </button>
     </div>
   );
