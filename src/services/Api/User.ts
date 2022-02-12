@@ -6,7 +6,7 @@ import { BeaconWallet } from '@taquito/beacon-wallet';
 import { char2Bytes } from '@taquito/utils';
 import BaseApi from './index';
 
-const tezos = new TezosToolkit('https://rpc.tzbeta.net'); // ?? публичный узел не meinnet!!
+const tezos = new TezosToolkit('https://rpc.tzbeta.net'); // ?? публичный узел meinnet!! не тестовый
 tezos.setPackerProvider(new MichelCodecPacker());
 const wallet = new BeaconWallet({ name: 'some name' });
 tezos.setWalletProvider(wallet);
