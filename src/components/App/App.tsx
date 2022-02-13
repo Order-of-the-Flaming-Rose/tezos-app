@@ -1,16 +1,19 @@
+import { BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from '../../contexts/AuthContext';
+import AppRouter from '../../route/AppRouter';
 import '../../styles/index.scss';
 import Header from '../Header';
-import Main from '../Main';
 
 function App() {
   return (
-    <AuthProvider>
-      <div className='App'>
-        <Header />
-        <Main />
-      </div>
-    </AuthProvider>
+    <Router>
+      <AuthProvider>
+        <div className='App'>
+          <Header />
+          <AppRouter />
+        </div>
+      </AuthProvider>
+    </Router>
   );
 }
 
