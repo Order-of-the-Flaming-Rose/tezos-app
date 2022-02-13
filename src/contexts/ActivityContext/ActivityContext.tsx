@@ -76,12 +76,21 @@ export function ActivityProvider({ children }: TActivityProps) {
 
   const scrollHandler = useCallback(async () => {
     console.log(lastId);
-    const rec = await axios.get(
-      `https://api.hangzhou2net.tzkt.io/v1/accounts/tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq/operations?limit=5&lastid=${lastId}`,
-    );
-    const { data } = rec;
-    const next = [...activity, ...data];
-    console.log(next);
+    setIsLoading(true);
+    try {
+      const rec = await axios.get(
+        `https://api.hangzhou2net.tzkt.io/v1/accounts/tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq/operations?limit=5&lastid=${lastId}`,
+      );
+      const { data } = rec;
+      const next = activity.concat(data);
+      console.log(next);
+      setActivity(next);
+      setLastId(data[data.length - 1].id);
+    } catch (error) {
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
   }, [setLastId, lastId]);
 
   const contextValue = useMemo(
