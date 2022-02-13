@@ -15,7 +15,7 @@ function Summary() {
     return function () {
       document.removeEventListener('scroll', scrollHandler);
     };
-  }, []);
+  }, [lastId]);
 
   return (
     <div className={styles.container}>

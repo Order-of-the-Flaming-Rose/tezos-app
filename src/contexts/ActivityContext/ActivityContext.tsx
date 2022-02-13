@@ -57,27 +57,32 @@ export function ActivityProvider({ children }: TActivityProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
-  const handleOffset = useCallback(() => console.log(lastId), [setLastId]);
+  const handleOffset = useCallback(
+    () => console.log(lastId),
+    [setLastId, lastId],
+  );
 
   const dataHandler = async () => {
     const rec = await axios.get(
-      'https://api.hangzhou2net.tzkt.io/v1/accounts/tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq/operations?lastid=13723218',
+      'https://api.hangzhou2net.tzkt.io/v1/accounts/tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq/operations?limit=5',
     );
     setActivity(rec.data);
     setLastId(() => {
-      debugger;
       return rec.data[rec.data.length - 1].id;
     });
   };
 
   console.log(lastId);
 
-  const scrollHandler = async () => {
+  const scrollHandler = useCallback(async () => {
     console.log(lastId);
-    // const rec = await axios.get(
-    //   `https://api.hangzhou2net.tzkt.io/v1/accounts/tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq/operations?lastid=${lastId}`,
-    // );
-  };
+    const rec = await axios.get(
+      `https://api.hangzhou2net.tzkt.io/v1/accounts/tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq/operations?limit=5&lastid=${lastId}`,
+    );
+    const { data } = rec;
+    const next = [...activity, ...data];
+    console.log(next);
+  }, [setLastId, lastId]);
 
   const contextValue = useMemo(
     () => ({
