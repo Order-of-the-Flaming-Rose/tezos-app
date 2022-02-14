@@ -14,29 +14,35 @@ import React, {
   useState,
 } from 'react';
 
-type TActivityContextValue = {
+type TWalletContextValue = {
   isError: boolean;
   isLoading: boolean;
   network: string;
   lastId: number;
   activity: any[];
+  balance: any;
+  getBalance: () => void;
   dataHandler: () => void;
   scrollHandler: (e: any) => void;
+  walletAddress: string;
 };
 
-const defaultState: TActivityContextValue = {
+const defaultState: TWalletContextValue = {
   isError: false,
   isLoading: false,
   network: '',
   lastId: 0,
   activity: [],
+  balance: null,
+  getBalance: () => undefined,
   dataHandler: () => undefined,
   scrollHandler: (e: any) => undefined,
+  walletAddress: '',
 };
 
-const ActivityContext = createContext(defaultState);
-export const useActivityContext = () => {
-  const ctx = useContext(ActivityContext);
+const WalletContext = createContext(defaultState);
+export const useWalletContext = () => {
+  const ctx = useContext(WalletContext);
   if (!ctx) {
     throw new Error(
       'you are not into Provider of the contexts, make sure the component wrapped in the Provider',
@@ -46,25 +52,42 @@ export const useActivityContext = () => {
   return ctx;
 };
 
-type TActivityProps = {
+type TWalletProps = {
   children: React.ReactNode;
 };
 
-export function ActivityProvider({ children }: TActivityProps) {
+export function WalletProvider({ children }: TWalletProps) {
   const [network, setNetwork] = useState('https://api.hangzhou2net.tzkt.io/');
+  const [walletAddress, setWalletAddress] = useState(
+    'tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq',
+  );
   const [lastId, setLastId] = useState(0);
   const [activity, setActivity] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [fetching, setFetching] = useState(false);
+  const [balance, setBalance] = useState({});
+
   const handleOffset = useCallback(
     () => console.log(lastId),
     [setLastId, lastId],
   );
 
+  const getBalance = async () => {
+    const rec = await axios.get(
+      `https://api.hangzhou2net.tzkt.io/v1/accounts/${walletAddress}`,
+    );
+    const xtz = rec.data.balance;
+    const quote = await axios.get(`https://api.hangzhou2net.tzkt.io/v1/head`);
+    const {
+      data: { quoteUsd },
+    } = quote;
+    const next = { xtz, quoteUsd };
+    setBalance(next);
+  };
   const dataHandler = async () => {
     const rec = await axios.get(
-      'https://api.hangzhou2net.tzkt.io/v1/accounts/tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq/operations?limit=5',
+      `https://api.hangzhou2net.tzkt.io/v1/accounts/${walletAddress}/operations?limit=5`,
     );
     setActivity(rec.data);
     setLastId(() => {
@@ -74,10 +97,9 @@ export function ActivityProvider({ children }: TActivityProps) {
 
   useEffect(() => {
     const handle = async () => {
-      console.log(5);
       if (fetching) {
         const rec = await axios.get(
-          `https://api.hangzhou2net.tzkt.io/v1/accounts/tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq/operations?limit=5&lastid=${lastId}`,
+          `https://api.hangzhou2net.tzkt.io/v1/accounts/${walletAddress}/operations?limit=5&lastid=${lastId}`,
         );
         const { data } = rec;
         const copy = activity;
@@ -110,15 +132,18 @@ export function ActivityProvider({ children }: TActivityProps) {
       lastId,
       network,
       activity,
+      balance,
+      walletAddress,
       dataHandler,
       scrollHandler,
+      getBalance,
     }),
-    [lastId, activity],
+    [lastId, activity, balance, walletAddress],
   );
 
   return (
-    <ActivityContext.Provider value={contextValue}>
+    <WalletContext.Provider value={contextValue}>
       {children}
-    </ActivityContext.Provider>
+    </WalletContext.Provider>
   );
 }

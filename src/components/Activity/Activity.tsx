@@ -1,10 +1,10 @@
 /* eslint-disable func-names */
 import React, { useEffect } from 'react';
-import { useActivityContext } from '../../contexts/ActivityContext/ActivityContext';
+import { useWalletContext } from '../../contexts/WalletContext/WalletContext';
 import styles from './Activity.module.scss';
 
 function Activity() {
-  const { dataHandler, scrollHandler, activity, lastId } = useActivityContext();
+  const { dataHandler, scrollHandler, activity, lastId } = useWalletContext();
   useEffect(() => {
     dataHandler();
   }, []);
