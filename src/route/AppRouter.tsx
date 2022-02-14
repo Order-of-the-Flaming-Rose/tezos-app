@@ -9,7 +9,7 @@ function AppRouter() {
     <main>
       <Switch>
         <Route exact path='/'>
-          <Redirect to='/home' />
+          <Redirect to='/summary' />
         </Route>
         <Route exact path='/home' component={Home} />
         <Route exact path='/summary' component={Summary} />

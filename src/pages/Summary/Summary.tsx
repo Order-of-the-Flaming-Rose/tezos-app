@@ -1,32 +1,19 @@
-/* eslint-disable func-names */
-import React, { useEffect } from 'react';
-import { useActivityContext } from '../../contexts/ActivityContext/ActivityContext';
+import React from 'react';
+import Activity from '../../components/Activity';
+import Balance from '../../components/Balance';
 import styles from './Summary.module.scss';
 
 function Summary() {
-  const { dataHandler, scrollHandler, activity, lastId } = useActivityContext();
-
-  useEffect(() => {
-    dataHandler();
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener('scroll', scrollHandler);
-    return function () {
-      document.removeEventListener('scroll', scrollHandler);
-    };
-  }, [lastId]);
-
   return (
-    <div className={styles.container}>
-      <h2>summary {lastId} </h2>
-      <ul>
-        {activity.map((op) => (
-          <li key={op.id} className={styles.item}>
-            {op.id}
-          </li>
-        ))}
-      </ul>
+    <div className={styles.wallet}>
+      <h2 className={styles.wallet__title}>summary </h2>
+      <div className={styles.wallet__balance}>
+        <Balance />
+      </div>
+      <div className={styles.wallet__activity}>
+        <Activity />
+      </div>
+      <div className={styles.wallet__invite}>invite</div>
     </div>
   );
 }

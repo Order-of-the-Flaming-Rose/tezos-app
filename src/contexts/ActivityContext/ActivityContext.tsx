@@ -21,7 +21,7 @@ type TActivityContextValue = {
   lastId: number;
   activity: any[];
   dataHandler: () => void;
-  scrollHandler: () => void;
+  scrollHandler: (e: any) => void;
 };
 
 const defaultState: TActivityContextValue = {
@@ -31,7 +31,7 @@ const defaultState: TActivityContextValue = {
   lastId: 0,
   activity: [],
   dataHandler: () => undefined,
-  scrollHandler: () => undefined,
+  scrollHandler: (e: any) => undefined,
 };
 
 const ActivityContext = createContext(defaultState);
@@ -53,10 +53,10 @@ type TActivityProps = {
 export function ActivityProvider({ children }: TActivityProps) {
   const [network, setNetwork] = useState('https://api.hangzhou2net.tzkt.io/');
   const [lastId, setLastId] = useState(0);
-  const [activity, setActivity] = useState([]);
+  const [activity, setActivity] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
-
+  const [fetching, setFetching] = useState(false);
   const handleOffset = useCallback(
     () => console.log(lastId),
     [setLastId, lastId],
@@ -72,26 +72,36 @@ export function ActivityProvider({ children }: TActivityProps) {
     });
   };
 
-  console.log(lastId);
+  useEffect(() => {
+    const handle = async () => {
+      console.log(5);
+      if (fetching) {
+        const rec = await axios.get(
+          `https://api.hangzhou2net.tzkt.io/v1/accounts/tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq/operations?limit=5&lastid=${lastId}`,
+        );
+        const { data } = rec;
+        const copy = activity;
+        const next = copy.concat(data);
+        setActivity(next);
+        setLastId(data[data.length - 1].id);
+      }
+      setFetching(false);
+    };
+    handle();
+  }, [fetching]);
 
-  const scrollHandler = useCallback(async () => {
-    console.log(lastId);
-    setIsLoading(true);
-    try {
-      const rec = await axios.get(
-        `https://api.hangzhou2net.tzkt.io/v1/accounts/tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq/operations?limit=5&lastid=${lastId}`,
-      );
-      const { data } = rec;
-      const next = activity.concat(data);
-      console.log(next);
-      setActivity(next);
-      setLastId(data[data.length - 1].id);
-    } catch (error) {
-      setIsError(true);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [setLastId, lastId]);
+  const scrollHandler = useCallback(
+    (e: any) => {
+      if (
+        e.target.documentElement.scrollHeight -
+          (e.target.documentElement.scrollTop + window.innerHeight) <
+        100
+      ) {
+        setFetching(true);
+      }
+    },
+    [lastId, fetching, activity],
+  );
 
   const contextValue = useMemo(
     () => ({
@@ -103,7 +113,7 @@ export function ActivityProvider({ children }: TActivityProps) {
       dataHandler,
       scrollHandler,
     }),
-    [lastId, network],
+    [lastId, activity],
   );
 
   return (
