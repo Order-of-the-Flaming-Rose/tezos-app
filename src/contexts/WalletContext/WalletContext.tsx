@@ -21,6 +21,8 @@ type TWalletContextValue = {
   lastId: number;
   activity: any[];
   balance: any;
+  auth: boolean;
+  getAuth: (val: boolean) => void;
   getBalance: () => void;
   dataHandler: () => void;
   scrollHandler: (e: any) => void;
@@ -34,6 +36,8 @@ const defaultState: TWalletContextValue = {
   lastId: 0,
   activity: [],
   balance: null,
+  auth: false,
+  getAuth: () => undefined,
   getBalance: () => undefined,
   dataHandler: () => undefined,
   scrollHandler: (e: any) => undefined,
@@ -67,6 +71,9 @@ export function WalletProvider({ children }: TWalletProps) {
   const [isError, setIsError] = useState(false);
   const [fetching, setFetching] = useState(false);
   const [balance, setBalance] = useState({});
+  const [auth, setAuth] = useState(false);
+
+  const getAuth = (val: boolean) => setAuth(val);
 
   const handleOffset = useCallback(
     () => console.log(lastId),
@@ -127,6 +134,8 @@ export function WalletProvider({ children }: TWalletProps) {
 
   const contextValue = useMemo(
     () => ({
+      auth,
+      getAuth,
       isError,
       isLoading,
       lastId,
@@ -138,7 +147,7 @@ export function WalletProvider({ children }: TWalletProps) {
       scrollHandler,
       getBalance,
     }),
-    [lastId, activity, balance, walletAddress],
+    [lastId, activity, balance, walletAddress, auth],
   );
 
   return (
