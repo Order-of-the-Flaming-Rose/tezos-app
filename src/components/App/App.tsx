@@ -1,5 +1,4 @@
 import { BrowserRouter as Router } from 'react-router-dom';
-import { AuthProvider } from '../../contexts/AuthContext';
 import AppRouter from '../../route/AppRouter';
 import '../../styles/index.scss';
 import Header from '../Header';
@@ -10,12 +9,10 @@ function App() {
   return (
     <Router>
       <WalletProvider>
-        <AuthProvider>
-          <div className={styles.app}>
-            <Header />
-            <AppRouter />
-          </div>
-        </AuthProvider>
+        <div className={styles.app}>
+          <Header />
+          <AppRouter />
+        </div>
       </WalletProvider>
     </Router>
   );

@@ -1,6 +1,7 @@
 import React from 'react';
 import Activity from '../../components/Activity';
 import Balance from '../../components/Balance';
+import Invite from '../../components/Invite';
 import styles from './Summary.module.scss';
 
 function Summary() {
@@ -13,7 +14,9 @@ function Summary() {
       <div className={styles.wallet__activity}>
         <Activity />
       </div>
-      <div className={styles.wallet__invite}>invite</div>
+      <div className={styles.wallet__invite}>
+        <Invite />
+      </div>
     </div>
   );
 }

@@ -54,6 +54,7 @@ export default class User extends BaseApi {
     console.log('activeAccount', activeAccount);
     try {
       if (!activeAccount) {
+        console.log('here');
         await this.disconnectWallet();
         await wallet.requestPermissions({
           network: { type: NetworkType.HANGZHOUNET },

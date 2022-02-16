@@ -5,7 +5,7 @@ import { useWalletContext } from '../../contexts/WalletContext/WalletContext';
 import styles from './Header.module.scss';
 
 function Header() {
-  const { auth } = useWalletContext();
+  const { auth, getWallet } = useWalletContext();
   const location = useLocation();
   const history = useHistory();
 
@@ -18,7 +18,9 @@ function Header() {
       <button
         type='button'
         className={styles.button}
-        onClick={() => history.push('/summary')}
+        onClick={() => {
+          getWallet();
+        }}
       >
         wallet
       </button>
