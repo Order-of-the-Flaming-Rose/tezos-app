@@ -4,7 +4,7 @@ import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 import { useHistory } from 'react-router-dom';
 import styles from './Login.module.scss';
-import Input from '../../components/Input';
+import Input from '../Input';
 import { useWalletContext } from '../../contexts/WalletContext/WalletContext';
 
 type TFormValues = {
