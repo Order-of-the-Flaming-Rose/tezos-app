@@ -29,6 +29,16 @@
         padding: 10px 15px;
         border-radius: 8px;
         justify-self: center;
+        // align-self: center;
+        // margin: auto;
+    }
+    &__error{
+        color: red;
+        border-width: 1px;
+        border-color: red;
     }
 
+}
+.test{
+    border: solid;
 }
