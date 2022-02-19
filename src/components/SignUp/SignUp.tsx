@@ -8,18 +8,19 @@ import { useHistory } from 'react-router-dom';
 import styles from './SignUp.module.scss';
 import Input from '../Input';
 import { useWalletContext } from '../../contexts/WalletContext/WalletContext';
+import { API } from '../../api';
 
 type TFormValues = {
-  username: string;
+  email: string;
   password: string;
   ['confirm password']: string;
-  wallet: string;
+  address: string;
 };
 const initialValues: TFormValues = {
-  username: '',
+  email: '',
   password: '',
   'confirm password': '',
-  wallet: '',
+  address: '',
 };
 
 function SignUp() {
@@ -29,15 +30,19 @@ function SignUp() {
   console.log(walletAddress);
 
   const validateRules = yup.object({
-    username: yup.string().required(),
+    email: yup.string().required(),
     password: yup.string().required(),
     'confirm password': yup.string().required(),
-    wallet: yup.string().test(() => {
+    address: yup.string().test(() => {
       return !!walletAddress;
     }),
   });
 
   const formSubmit = (values: TFormValues) => {
+    const { email, password } = values;
+    API.signUP({ email, password, address: walletAddress })
+      .then((data) => console.log(data))
+      .catch((e) => console.error(e));
     console.log(values);
     history.push('/home');
   };
@@ -52,7 +57,7 @@ function SignUp() {
       >
         <Form className={styles.signup__form}>
           {Object.entries(initialValues).map((field) =>
-            field[0] === 'wallet' ? true : <Input name={field[0]} />,
+            field[0] === 'address' ? true : <Input name={field[0]} />,
           )}
 
           <Field name='wallet'>

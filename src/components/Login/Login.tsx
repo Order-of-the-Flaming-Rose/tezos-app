@@ -2,10 +2,9 @@
 import React from 'react';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
-import { useHistory } from 'react-router-dom';
 import styles from './Login.module.scss';
 import Input from '../Input';
-import { useWalletContext } from '../../contexts/WalletContext/WalletContext';
+import { API } from '../../api';
 
 type TFormValues = {
   username: string;
@@ -21,12 +20,12 @@ const validateRules = yup.object({
 });
 
 function Login() {
-  const history = useHistory();
-  const { getAuth } = useWalletContext();
   const formSubmit = (values: TFormValues) => {
+    const { username, password } = values;
     console.log(values);
-    getAuth(true);
-    history.push('/home');
+    API.singIn({ email: username, password })
+      .then((data) => localStorage.setItem('token', data.data.access_token))
+      .catch((e) => console.log(e));
   };
 
   return (

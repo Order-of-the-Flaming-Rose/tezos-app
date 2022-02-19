@@ -51,7 +51,7 @@ export default class User extends BaseApi {
 
   async connectWallet() {
     let activeAccount = await wallet.client.getActiveAccount();
-    console.log('activeAccount', activeAccount);
+    //  console.log('activeAccount', activeAccount);
     try {
       if (!activeAccount) {
         console.log('here');

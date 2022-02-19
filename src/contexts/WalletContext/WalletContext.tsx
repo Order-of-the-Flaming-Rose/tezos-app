@@ -84,6 +84,7 @@ export function WalletProvider({ children }: TWalletProps) {
   const getWallet = async () => {
     const UserInstance = new User('https://hangzhounet.api.tez.ie');
     const wal = await UserInstance.connectWallet();
+    // console.log(wal);
     setWalletAddress(wal);
   };
   // after login access runs getAuth func
