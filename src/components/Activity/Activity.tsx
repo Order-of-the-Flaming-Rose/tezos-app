@@ -9,7 +9,6 @@ function Activity() {
     useWalletContext();
   useEffect(() => {
     dataHandler();
-    console.log(1);
     setLimit(false);
   }, []);
 

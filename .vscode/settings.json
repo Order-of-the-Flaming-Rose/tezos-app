@@ -10,6 +10,7 @@
         "sendcard",
         "signup",
         "STEPBACK",
+        "TZKT",
         "userdata"
     ]
 }

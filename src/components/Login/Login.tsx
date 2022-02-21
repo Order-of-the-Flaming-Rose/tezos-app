@@ -27,7 +27,7 @@ function Login() {
       .then((data) => localStorage.setItem('token', data.data.access_token))
       .catch((e) => console.log(e));
   };
-
+  console.log(localStorage.getItem('token'));
   return (
     <div className={styles.login}>
       <h2 className={styles.login__title}>Log in</h2>

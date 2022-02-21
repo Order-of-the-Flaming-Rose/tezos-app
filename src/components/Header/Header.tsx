@@ -3,11 +3,15 @@
 import { useLocation, useHistory } from 'react-router-dom';
 import { useWalletContext } from '../../contexts/WalletContext/WalletContext';
 import styles from './Header.module.scss';
+import { API } from '../../api';
 
 function Header() {
   const { auth, getWallet } = useWalletContext();
   const location = useLocation();
   const history = useHistory();
+  const handleMe = async () => {
+    API.me();
+  };
 
   const button =
     auth && location.pathname === '/summary' ? (
@@ -45,6 +49,9 @@ function Header() {
   return (
     <header className={styles.header}>
       <h2 className={styles.title}>Орден Пылающей Розы</h2>
+      <button type='button' onClick={handleMe}>
+        push me
+      </button>
 
       {button}
     </header>
