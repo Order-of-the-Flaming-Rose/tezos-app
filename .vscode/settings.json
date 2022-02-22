@@ -6,6 +6,7 @@
         "GETFORM",
         "GETWALLET",
         "getwalletcard",
+        "HANGZHOUNET",
         "progresspoint",
         "sencard",
         "sendcard",

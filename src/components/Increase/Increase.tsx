@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand */
 /* eslint-disable spaced-comment */
 /* eslint-disable no-shadow */
 /* eslint-disable no-undef */
@@ -12,47 +13,57 @@ import { NetworkType } from '@airgap/beacon-sdk';
 
 import styles from './Increase.module.scss';
 
-const contractAddressParam = 'KT1B6WTvKkSZmW2882VVwQKuoxf2ubUoqgNZ';
-const contractAddress = 'KT1LmBK9q9KqpqCPdXuFWMYzB7a2RXaq4Htn';
+const sendContractAddress = 'KT1B6WTvKkSZmW2882VVwQKuoxf2ubUoqgNZ';
+const approveContractAddress = 'KT1LmBK9q9KqpqCPdXuFWMYzB7a2RXaq4Htn';
 
 const network = NetworkType.HANGZHOUNET;
 const rpcUrl = 'https://hangzhounet.api.tez.ie';
-const wallet = new BeaconWallet({ network, name: 'Vovchanchyck' });
-let userAddress, userBalance;
+const wallet = new BeaconWallet({preferredNetwork: network, name: 'some name' });
 const Tezos = new TezosToolkit(rpcUrl);
-
+let activeAccount 
 function Increase() {
 
-  let userAddress;
-  const connect = async () => {
-    try {
-      await wallet.requestPermissions({ network: { type: network } });
-      
-      const activeAccount = await wallet.client.getActiveAccount();
-      Tezos.setWalletProvider(wallet);
+  let activeAccount:any
 
-      userAddress = await wallet.getPKH()
-      console.log(userAddress)
-      console.log(Tezos.signer);
+  const approve = async () => {
+
+    try {
+
+      if(!activeAccount){
+        await wallet.requestPermissions({ network: { type: network } });
+      
+        activeAccount = await wallet.client.getActiveAccount();
+        Tezos.setWalletProvider(wallet);
+      }
+
+      const approve = await Tezos.wallet.at(approveContractAddress);
+      const firstOp = await approve.methods.approve( sendContractAddress, 0).send({fee: 10000});
+      await firstOp.confirmation(3);    
+      console.log(firstOp);
+
     } catch (error) {
-      console.log(error);
+      console.log(error); 
     }
   };
-  const params = []
-  const showContract = async () => {
+
+  const send = async () => {
     try {
-      const contract = await Tezos.wallet.at(contractAddress);
-      //const updateOperators 
-      
-       const op = await contract.methods.approve( contractAddressParam, 20).send({fee: 10000});
-      // const op = await contract.methods.
-      await op.confirmation(3);
-      console.log(op)
+      if(!activeAccount){
+        if(!activeAccount){
+          await wallet.requestPermissions({ network: { type: network } });  
+          activeAccount = await wallet.client.getActiveAccount();
+          Tezos.setWalletProvider(wallet);
+        }
+
+      }
+
+      const send = await Tezos.wallet.at(sendContractAddress);
+      const secondOp = await send.methods.send(0).send({fee: 10000});
+      await secondOp.confirmation(3);
+
     } catch (error) {
       console.log(error);
-    } finally {
-      console.log(1);
-    }
+    } 
   };
 
   return (
@@ -63,12 +74,11 @@ function Increase() {
         <input className={styles.increase__input} type='number' name='number' />
         <span>left: 00</span>
         fee : 0.3%
-        <button type='button' onClick={() => connect()}>
-          connect{' '}
+        <button type='button' onClick={() => approve()}>
+          approve{' '}
         </button>
-        <button type='button' onClick={() => showContract()}>
-          {' '}
-          push me
+        <button type='button' onClick={() => send()}>
+          send{' '}
         </button>
       </form>
     </div>
