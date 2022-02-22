@@ -24,7 +24,10 @@ function Login() {
     const { username, password } = values;
     console.log(values);
     API.singIn({ email: username, password })
-      .then((data) => localStorage.setItem('token', data.data.access_token))
+      .then((data) => {
+        localStorage.setItem('token', data.data.access_token);
+        localStorage.setItem('refresh_token', data.data.refresh_token);
+      })
       .catch((e) => console.log(e));
   };
   console.log(localStorage.getItem('token'));
