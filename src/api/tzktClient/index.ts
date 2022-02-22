@@ -18,7 +18,12 @@ export const TZKTService = {
   getAccount(walletAddress: string) {
     return TZKTInstance.get(`accounts/${walletAddress}`);
   },
+
   getCurrencyRate() {
     return TZKTInstance.get('head');
+  },
+
+  getAllowance(walletAddress: string) {
+    return TZKTInstance.get(`/bigmaps/153235/${walletAddress}`);
   },
 };
