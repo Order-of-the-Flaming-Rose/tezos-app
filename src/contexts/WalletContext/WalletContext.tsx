@@ -1,20 +1,15 @@
-/* eslint-disable no-debugger */
-/* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
-// import { Axios } from 'axios';
-import axios from 'axios';
+// /* eslint-disable no-unused-vars */
 import React, {
   createContext,
   useCallback,
   useContext,
   useEffect,
   useMemo,
-  useReducer,
   useState,
 } from 'react';
-import { useHistory } from 'react-router-dom';
 import User from '../../services/Api/User';
+import { TZKTService } from '../../api/tzktClient';
 
 type TWalletContextValue = {
   isError: boolean;
@@ -45,7 +40,7 @@ const defaultState: TWalletContextValue = {
   getAuth: () => undefined,
   getBalance: () => undefined,
   dataHandler: () => undefined,
-  scrollHandler: (e: any) => undefined,
+  scrollHandler: () => undefined,
   walletAddress: '',
   getWallet: () => undefined,
 };
@@ -80,12 +75,11 @@ export function WalletProvider({ children }: TWalletProps) {
   const [balance, setBalance] = useState({});
   const [auth, setAuth] = useState(false);
 
-  const history = useHistory();
   const getWallet = async () => {
     const UserInstance = new User('https://hangzhounet.api.tez.ie');
     const wal = await UserInstance.connectWallet();
+    // console.log(wal);
     setWalletAddress(wal);
-    history.push('/summary');
   };
   // after login access runs getAuth func
   const getAuth = (val: boolean) => setAuth(val);
@@ -96,10 +90,10 @@ export function WalletProvider({ children }: TWalletProps) {
     setIsError(false);
 
     try {
-      const rec = await axios.get(
-        `https://api.hangzhou2net.tzkt.io/v1/accounts/${walletAddress}`,
+      const rec = await TZKTService.getAccount(
+        'tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq',
       );
-      const quote = await axios.get(`https://api.hangzhou2net.tzkt.io/v1/head`);
+      const quote = await TZKTService.getCurrencyRate();
       const xtz = rec.data.balance;
       const {
         data: { quoteUsd },
@@ -114,8 +108,8 @@ export function WalletProvider({ children }: TWalletProps) {
   };
   // first part of operation
   const dataHandler = async () => {
-    const rec = await axios.get(
-      `https://api.hangzhou2net.tzkt.io/v1/accounts/${walletAddress}/operations?limit=5`,
+    const rec = await TZKTService.getOperations(
+      'tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq',
     );
     setActivity(rec.data);
     setLastId(() => {
@@ -129,8 +123,9 @@ export function WalletProvider({ children }: TWalletProps) {
 
       if (fetching) {
         try {
-          const rec = await axios.get(
-            `https://api.hangzhou2net.tzkt.io/v1/accounts/${walletAddress}/operations?limit=5&lastid=${lastId}`,
+          const rec = await TZKTService.getNextOperations(
+            'tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq',
+            lastId,
           );
           const { data } = rec;
           if (!data.length) {
@@ -154,7 +149,6 @@ export function WalletProvider({ children }: TWalletProps) {
   const scrollHandler = useCallback(
     (e: any) => {
       if (limit) {
-        console.log('finish');
         return;
       }
       if (
@@ -179,6 +173,7 @@ export function WalletProvider({ children }: TWalletProps) {
       activity,
       balance,
       fetching,
+      // here
       setLimit,
       walletAddress,
       dataHandler,
