@@ -1,59 +1,38 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-console */
-import { useLocation, useHistory } from 'react-router-dom';
-import { useWalletContext } from '../../contexts/WalletContext/WalletContext';
+import React, { useState } from 'react';
 import styles from './Header.module.scss';
-import { API } from '../../api';
+import headerLogo from '../../imgs/title.png';
 
 function Header() {
-  const { auth, getWallet } = useWalletContext();
-  const location = useLocation();
-  const history = useHistory();
-  const handleMe = async () => {
-    API.me();
-  };
+  const [showNav, setShowNav] = useState(false);
+  const navClass = showNav
+    ? `${styles.header__nav} ${styles.show}`
+    : styles.header__nav;
 
-  const button =
-    auth && location.pathname === '/summary' ? (
-      <button type='button' className={styles.button}>
-        log out
-      </button>
-    ) : auth ? (
-      <button
-        type='button'
-        className={styles.button}
-        onClick={() => {
-          getWallet();
-        }}
-      >
-        wallet
-      </button>
-    ) : location.pathname === '/login' ? (
-      <button
-        type='button'
-        className={styles.button}
-        onClick={() => history.push('/sign-up')}
-      >
-        sign up
-      </button>
-    ) : (
-      <button
-        type='button'
-        className={styles.button}
-        onClick={() => history.push('/login')}
-      >
-        login
-      </button>
-    );
+  const iconClass = !showNav
+    ? styles.header__icon
+    : `${styles.header__icon} ${styles.cross}`;
 
   return (
     <header className={styles.header}>
-      <h2 className={styles.title}>Орден Пылающей Розы</h2>
-      <button type='button' onClick={handleMe}>
-        push me
+      <div className={styles.header__logo}>
+        <img
+          src={headerLogo}
+          className={styles.header__logo}
+          alt='header logo'
+        />
+      </div>
+      <button
+        type='button'
+        className={styles.header__btn}
+        onClick={() => setShowNav(!showNav)}
+      >
+        <span className={iconClass} />
       </button>
-
-      {button}
+      <nav className={navClass}>
+        <li className={styles.header__link}>billing</li>
+        <li className={styles.header__link}>summary</li>
+        <li className={styles.header__link}>log in</li>
+      </nav>
     </header>
   );
 }

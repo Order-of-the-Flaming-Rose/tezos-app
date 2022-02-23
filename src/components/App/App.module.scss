@@ -1,4 +1,9 @@
+@import './../../styles/index.scss';
 .app{
     min-height: 100vh;
     border: solid;
+    background-color: $main-bkg-grey;
+    color: #fff;
+    padding-bottom: 80px;
+    
 }
