@@ -1,12 +1,18 @@
+@import './../../styles/index.scss';
+
 .home {
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 1fr 1fr;
     gap: 30px;
     padding: 30px;
     padding-bottom: 90px;
     font-size: 20px;
-    padding: 0 140px;
+    // padding: 0 140px;
+    border: solid;
 
+    @include media(786px){
+        grid-template-columns: 1fr;
+    }
     &__left {
         padding: 50px 50px;
     }

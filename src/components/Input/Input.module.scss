@@ -8,8 +8,16 @@
 
     &__field {
         padding: 6px 10px;
-        border-radius: 8px;
-        border: solid 0.1px grey;
+        // border-radius: 8px;
+        background-color: transparent;
+        // border: solid 0.1px grey;
+        color: #fff;
+        border-bottom: solid #fff;
+        transition: 01s;
+        &:hover{
+            
+            background-color: black;
+        }
 
     }
 

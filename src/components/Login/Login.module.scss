@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: column;
     row-gap: 10px;
+    
+
   
     &__title{
         text-align: center;
@@ -14,9 +16,11 @@
        row-gap: 20px;
     }
     &__btn{
-        border-radius: 8px;
+        // border-radius: 8px;
+        color: #fff;
         font-size: 20px;
-        padding: 4px 8px;
+        padding: 8px 8px;
+        background-color: #363636;
     }
 
 }
