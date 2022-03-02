@@ -22,11 +22,18 @@ function Activity() {
 
   return (
     <div className={styles.container}>
-      <h2>activity </h2>
+      <h2 className={styles.container__title}>activity </h2>
       <ul>
         {activity.map((op) => (
           <li key={op.id} className={styles.item}>
-            {op.id}
+            <span className={styles.item__amount}>amount : {op.amount}</span>
+            <span className={styles.item__time}>10:30 02-03-22</span>
+            <span className={styles.item__target}>
+              {' '}
+              target: {op.target.address}
+            </span>
+            <span className={styles.item__hash}>{op.hash}</span>
+            <span className={styles.item__sender}>{op.sender.address}</span>
           </li>
         ))}
         {fetching && 'fetching'}

@@ -154,7 +154,7 @@ export function WalletProvider({ children }: TWalletProps) {
       if (
         e.target.documentElement.scrollHeight -
           (e.target.documentElement.scrollTop + window.innerHeight) <
-        100
+        300
       ) {
         setFetching(true);
       }
