@@ -74,10 +74,10 @@ function Increase() {
         <input className={styles.increase__input} type='number' name='number' />
         <span>left: 00</span>
         fee : 0.3%
-        <button type='button' onClick={() => approve()}>
+        <button type='button' className={styles.increase__btn} onClick={() => approve()}>
           approve{' '}
         </button>
-        <button type='button' onClick={() => send()}>
+        <button type='button' className={styles.increase__btn} onClick={() => send()}>
           send{' '}
         </button>
       </form>

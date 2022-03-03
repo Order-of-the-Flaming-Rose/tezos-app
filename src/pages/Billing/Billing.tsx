@@ -10,11 +10,6 @@ function Billing() {
       <nav className={styles.billing__navigation}>
         <li className={styles.billing__link}>
           <button type='button' className={styles.billing__btn}>
-            buy token X
-          </button>
-        </li>
-        <li className={styles.billing__link}>
-          <button type='button' className={styles.billing__btn}>
             increase your balance
           </button>
         </li>

@@ -4,14 +4,23 @@
 
     &__navigation{
        margin: 40px auto;
-        display: grid;
-        grid-template-columns: auto auto;
-        gap: 20px;
+
+
+        
         
     }
     &__link{
         border: solid;
         padding: 10px 20px;
+        //background-color: transparent;
+        background-color: rgb(62 62 70);
+        border: none;
+        border-radius: 50px;
+
+    }
+    &__btn{
+        background-color: transparent;
+        color: #fff;
 
     }
     &__body{
