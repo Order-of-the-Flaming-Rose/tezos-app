@@ -11,7 +11,7 @@ export const TZKTService = {
 
   getNextOperations(walletAddress: string, lastId: number) {
     return TZKTInstance.get(
-      `/accounts/${walletAddress}/operations?limit=3&lastid=${lastId}`,
+      `/accounts/${walletAddress}/operations?limit=5&lastid=${lastId}`,
     );
   },
 

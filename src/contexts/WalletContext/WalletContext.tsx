@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable no-debugger */
 /* eslint-disable no-unused-vars */
 // /* eslint-disable no-unused-vars */
 import React, {
@@ -129,6 +131,7 @@ export function WalletProvider({ children }: TWalletProps) {
           );
           const { data } = rec;
           if (!data.length) {
+            console.log('limit');
             setLimit(true);
           }
           const copy = activity;
@@ -136,7 +139,10 @@ export function WalletProvider({ children }: TWalletProps) {
           setActivity(next);
           setLastId(data[data.length - 1].id);
         } catch (e) {
+          // debugger;
+          console.log('err');
           setLimit(true);
+          console.log(e);
         } finally {
           setFetching(false);
         }
@@ -154,7 +160,7 @@ export function WalletProvider({ children }: TWalletProps) {
       if (
         e.target.documentElement.scrollHeight -
           (e.target.documentElement.scrollTop + window.innerHeight) <
-        300
+        100
       ) {
         setFetching(true);
       }

@@ -7,7 +7,6 @@ import React from 'react';
 import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
 import Login from '../../components/Login';
 import SignUp from '../../components/SignUp';
-// import { useWalletContext } from '../../contexts/WalletContext/WalletContext';
 import styles from './Home.module.scss';
 import logo from '../../imgs/logo.png';
 

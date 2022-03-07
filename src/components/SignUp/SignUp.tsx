@@ -76,8 +76,11 @@ function SignUp() {
               </>
             )}
           </Field>
-
           <input type='submit' className={styles.signup__btn} />
+          <span className={styles.signup__li}>
+            already have an account{' '}
+            <button className={styles.signup__link}>sign up</button>
+          </span>
         </Form>
       </Formik>
     </div>

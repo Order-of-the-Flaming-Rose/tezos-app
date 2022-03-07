@@ -21,7 +21,7 @@
         background-color: transparent;
         transition: 0.5s;
         &:hover{
-            background-color: $main-bkg-dark;
+            background-color: #3e3e46;
         }
         @include media(768px) {
             display: block;
@@ -91,7 +91,7 @@
         height: 100%;
     
         &:hover{
-            background-color: $main-bkg-dark;
+            background-color: #3e3e46;
         }
 
     }

@@ -1,26 +1,39 @@
 .login {
+
     display: flex;
     flex-direction: column;
     row-gap: 10px;
     
-
-  
     &__title{
-        text-align: center;
-    
+        text-align: center;   
     }
 
     &__form{
        display: flex;
        flex-direction: column;
        row-gap: 20px;
+       font-size: 13.333px;
     }
+
+    &__link{
+        background-color: transparent;
+        color: currentColor;
+        font-weight: bolder;
+    }
+
+    &__li{
+        font-size: 13.333px;
+        color:rgb(214, 75, 120) ;
+
+    }
+
+       
     &__btn{
-        // border-radius: 8px;
         color: #fff;
         font-size: 20px;
         padding: 8px 8px;
-        background-color: #363636;
+        border-radius: 50px;
+        background-color: rgb(62 62 70);
+        font-size: 13.333px;
     }
-
 }
