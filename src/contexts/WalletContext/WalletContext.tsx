@@ -62,11 +62,13 @@ export const useWalletContext = () => {
 type TWalletProps = {
   children: React.ReactNode;
 };
-// 'tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq',
+// walletAddress,
 
 export function WalletProvider({ children }: TWalletProps) {
   // wallet address
-  const [walletAddress, setWalletAddress] = useState('');
+  const [walletAddress, setWalletAddress] = useState(
+    'tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq',
+  );
   // activity is list of operations of the current wallet
   const [lastId, setLastId] = useState(0);
   const [activity, setActivity] = useState<any[]>([]);
@@ -92,9 +94,7 @@ export function WalletProvider({ children }: TWalletProps) {
     setIsError(false);
 
     try {
-      const rec = await TZKTService.getAccount(
-        'tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq',
-      );
+      const rec = await TZKTService.getAccount(walletAddress);
       const quote = await TZKTService.getCurrencyRate();
       const xtz = rec.data.balance;
       const {
@@ -110,9 +110,7 @@ export function WalletProvider({ children }: TWalletProps) {
   };
   // first part of operation
   const dataHandler = async () => {
-    const rec = await TZKTService.getOperations(
-      'tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq',
-    );
+    const rec = await TZKTService.getOperations(walletAddress);
     setActivity(rec.data);
     setLastId(() => {
       return rec.data[rec.data.length - 1].id;
@@ -126,12 +124,11 @@ export function WalletProvider({ children }: TWalletProps) {
       if (fetching) {
         try {
           const rec = await TZKTService.getNextOperations(
-            'tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq',
+            walletAddress,
             lastId,
           );
           const { data } = rec;
           if (!data.length) {
-            console.log('limit');
             setLimit(true);
           }
           const copy = activity;
@@ -139,8 +136,6 @@ export function WalletProvider({ children }: TWalletProps) {
           setActivity(next);
           setLastId(data[data.length - 1].id);
         } catch (e) {
-          // debugger;
-          console.log('err');
           setLimit(true);
           console.log(e);
         } finally {

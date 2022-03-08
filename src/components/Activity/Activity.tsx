@@ -9,6 +9,7 @@ function Activity() {
   const { dataHandler, scrollHandler, activity, lastId, setLimit } =
     useWalletContext();
   useEffect(() => {
+
     dataHandler();
     setLimit(false);
   }, []);
@@ -19,27 +20,28 @@ function Activity() {
       document.removeEventListener('scroll', scrollHandler);
     };
   }, [lastId]);
-  // console.log(fetching);
-  console.log(activity);
 
   return (
     <div className={styles.container}>
       <h2 className={styles.container__title}>activity </h2>
       <ul>
         {activity.map((op) => {
-          console.log(op?.target);
           return (
             <li key={op.id} className={styles.item}>
-              <span className={styles.item__amount}> amount : {op.amount}</span>
+              {(op.type === 'transaction')?<span className={styles.item__amount}> amount : {op.amount}</span>:null}
               <span className={styles.item__time}>10:30 02-03-22</span>
-              <span className={styles.item__target}>target:</span>
-              <span className={styles.item__hash}>hash:</span>
-              <span className={styles.item__sender}>sender</span>
+
+            {(op.type === 'transaction')
+            ? <>
+            <span className={styles.item__from}>from {op.sender.address}</span>
+             <span className={styles.item__to}>to {op.target.address}</span>
+             </>
+              : null
+               } 
+              <a className={styles.item__hash} href={`https://hangzhou2net.tzkt.io/${op.hash}`} target='_blank' rel="noreferrer">view in the block explorer {op.hash}</a>
             </li>
           );
         })}
-
-        {/* {fetching && 'fetching'} */}
       </ul>
     </div>
   );

@@ -1,11 +1,16 @@
-.wallet {
+@import './../../styles/index.scss';
 
-    border: solid;
+.wallet {
     display: grid;
-    grid-template-columns: 70% afr;
+    grid-template-columns: 70% 1fr;
     grid-template-rows: auto auto 1fr;
     gap: 20px;
     padding: 40px;
+
+    @include media(768px){
+        grid-template-columns: 1fr;
+    }
+    
   
     &__title{
         grid-row: 1/2;
@@ -13,33 +18,44 @@
         text-align: center;
         font-size: 25px;
         padding: 20px 0;
+        @include media(768px){
+            grid-column: 1/2;
+        }
     
     }
 
     &__balance{
-        border: solid;
         grid-row: 2/3;
         grid-column: 1/2;
         height: 400px;
         height: auto;
-        font-size: 25px;
-       
+        border: solid 0.1px rgb(214, 75, 120);
+        font-size: 16px;
+        @include media(768px){
+            grid-column: 1/2;
+            grid-row: 3/4;
+        }
 
     }
     &__activity{
-        //text-align: center;
-        border: solid;
         grid-row: 3/4;
         grid-column: 1/2;
         font-size: 25px;
-        // background-color: blanchedalmond;
+        @include media(768px){
+            grid-column: 1/2;
+            grid-row: 4/5;
+        }
        
-
     }
     &__invite{
-        grid-column: 2/3;
+        
         border: solid;
-        font-size: 25px;
+        padding: 10px;
+        border: solid 0.1px rgb(214, 75, 120);
+        @include media(768px){
+            grid-column: 1/2;
+            grid-row: 2/3;
+        }
     }
 
 }
