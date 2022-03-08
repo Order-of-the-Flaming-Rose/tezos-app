@@ -1,0 +1,5 @@
+@mixin media($size, $mood: max) {
+    @media screen and (#{$mood}-width: $size) {
+      @content;
+    }
+  }

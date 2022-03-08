@@ -32,7 +32,12 @@ function Input({ name }: TProps) {
         return (
           <div className={styles.input__container}>
             {name}
-            <input type='text' {...field} className={inputClass} />
+            <input
+              type='text'
+              {...field}
+              autoComplete='off'
+              className={inputClass}
+            />
             {meta.touched && meta.error && (
               <span className={styles.input__error}>{meta.error}</span>
             )}

@@ -7,16 +7,19 @@
     }
 
     &__field {
-        padding: 6px 10px;
-        border-radius: 8px;
-        border: solid 0.1px grey;
-
+        padding: 10px 10px;
+        border-radius: 50px;
+        background-color: transparent;
+        color: #fff;
+        transition: 01s;
+        background-color: rgb(62 62 70);
+        border: solid 0.1px rgb(214, 75, 120);
     }
 
     &__error {
         color: red;
-        border-width: 1px;
+        border-width: 0.1px;
         border-color: red;
-
+        font-size: 13.333px;
     }
 }

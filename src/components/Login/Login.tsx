@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 /* eslint-disable no-console */
 import React from 'react';
 import { Form, Formik } from 'formik';
@@ -45,6 +46,10 @@ function Login() {
             <Input name={field[0]} />
           ))}
           <input type='submit' className={styles.login__btn} />
+          <span className={styles.login__li}>
+            already have an account{' '}
+            <button className={styles.login__link}>sign up</button>
+          </span>
         </Form>
       </Formik>
     </div>

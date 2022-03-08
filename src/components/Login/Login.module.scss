@@ -1,34 +1,39 @@
 .login {
 
-    display: grid;
-    grid-template-columns: 1fr minmax(300px, 500px) 1fr;
-    gap: 20px;
-    padding: 40px;
-  
-    &__title{
-        grid-column: 2/3;
-        text-align: center;
-        font-size: 25px;
-        padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
     
+    &__title{
+        text-align: center;   
     }
 
     &__form{
-        box-shadow: 1px 1px 3px grey, -1px -1px 3px grey ;
-        padding: 20px 30px;
-        border-radius: 20px;
-        grid-column: 2/3;
-        display: grid;
-        gap: 15px;
-        align-items: stretch;
-        grid-template-columns: 100%;
-       
-    }
-    &__btn{
-        width: fit-content;
-        padding: 10px 15px;
-        border-radius: 8px;
-        justify-self: center;
+       display: flex;
+       flex-direction: column;
+       row-gap: 20px;
+       font-size: 13.333px;
     }
 
+    &__link{
+        background-color: transparent;
+        color: currentColor;
+        font-weight: bolder;
+    }
+
+    &__li{
+        font-size: 13.333px;
+        color:rgb(214, 75, 120) ;
+
+    }
+
+       
+    &__btn{
+        color: #fff;
+        font-size: 20px;
+        padding: 8px 8px;
+        border-radius: 50px;
+        background-color: rgb(62 62 70);
+        font-size: 13.333px;
+    }
 }
