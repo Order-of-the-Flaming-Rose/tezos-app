@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styles from './Header.module.scss';
 import headerLogo from '../../imgs/title.png';
 
 function Header() {
+  const history = useHistory();
   const [showNav, setShowNav] = useState(false);
   const navClass = showNav
     ? `${styles.header__nav} ${styles.show}`
@@ -29,9 +31,37 @@ function Header() {
         <span className={iconClass} />
       </button>
       <nav className={navClass}>
-        <li className={styles.header__link}>billing</li>
-        <li className={styles.header__link}>summary</li>
-        <li className={styles.header__link}>log in</li>
+        <li className={styles.header__link}>
+          <button
+            type='button'
+            className={styles.header__link}
+            onClick={() => history.push('/billing')}
+            onKeyPress={() => history.push('/billing')}
+          >
+            billing
+          </button>
+        </li>
+
+        <li className={styles.header__link}>
+          <button
+            type='button'
+            className={styles.header__link}
+            onClick={() => history.push('/summary')}
+            onKeyPress={() => history.push('/summary')}
+          >
+            summary
+          </button>
+        </li>
+        <li className={styles.header__link}>
+          <button
+            type='button'
+            className={styles.header__link}
+            onClick={() => history.push('/home/login')}
+            onKeyPress={() => history.push('/home/login')}
+          >
+            log in
+          </button>
+        </li>
       </nav>
     </header>
   );

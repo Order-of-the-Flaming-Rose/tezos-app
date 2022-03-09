@@ -79,7 +79,12 @@ function SignUp() {
           <input type='submit' className={styles.signup__btn} />
           <span className={styles.signup__li}>
             already have an account{' '}
-            <button className={styles.signup__link}>sign up</button>
+            <button
+              className={styles.signup__link}
+              onClick={() => history.push('/home/login')}
+            >
+              sign up
+            </button>
           </span>
         </Form>
       </Formik>
