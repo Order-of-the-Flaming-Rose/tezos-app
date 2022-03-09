@@ -89,6 +89,11 @@
         display: flex;
         justify-content: center;
         height: 100%;
+
+        >*{
+            color: #fff;
+            background-color: transparent;
+        }
     
         &:hover{
             background-color: #3e3e46;

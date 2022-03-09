@@ -3,6 +3,7 @@
 import React from 'react';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
+import { useHistory } from 'react-router-dom';
 import styles from './Login.module.scss';
 import Input from '../Input';
 import { API } from '../../api';
@@ -32,6 +33,8 @@ function Login() {
       .catch((e) => console.log(e));
   };
   console.log(localStorage.getItem('token'));
+
+  const history = useHistory();
   return (
     <div className={styles.login}>
       <h2 className={styles.login__title}>Log in</h2>
@@ -48,7 +51,12 @@ function Login() {
           <input type='submit' className={styles.login__btn} />
           <span className={styles.login__li}>
             already have an account{' '}
-            <button className={styles.login__link}>sign up</button>
+            <button
+              className={styles.login__link}
+              onClick={() => history.push('/home/sign-up')}
+            >
+              sign up
+            </button>
           </span>
         </Form>
       </Formik>
