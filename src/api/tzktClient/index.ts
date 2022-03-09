@@ -24,6 +24,6 @@ export const TZKTService = {
   },
 
   getAllowance(walletAddress: string) {
-    return TZKTInstance.get(`/bigmaps/153235/${walletAddress}`);
+    return TZKTInstance.get(`/bigmaps/153235/keys/${walletAddress}`);
   },
 };

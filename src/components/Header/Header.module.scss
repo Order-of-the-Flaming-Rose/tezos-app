@@ -1,42 +1,50 @@
 @import './../../styles/index.scss';
 
 .header {
-    padding: 30px;  
+    padding: 30px;
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 1fr auto auto;
     grid-template-rows: 68px auto;
     justify-content: space-between;
+    grid-column-gap: 15px;
+
 
     @include media(768px) {
-        grid-template-columns: auto 68px;  
-        column-gap: 0;
+        grid-template-columns: 1fr auto 68px;
+
     }
+
     &__logo {
         height: 63.78207397460938px;
         width: 274px;
-        margin-left: 17px;
+
     }
-    &__btn{
+
+    &__btn {
         display: none;
         background-color: transparent;
         transition: 0.5s;
-        &:hover{
+
+        &:hover {
             background-color: #3e3e46;
         }
+
         @include media(768px) {
             display: block;
-            height: 68px;          
+            height: 68px;
+            order: 1;
         }
-    
+
     }
-    &__icon{
+
+    &__icon {
         width: 40px;
         margin: auto;
         display: block;
         height: 4px;
-        background-color:#fff;
+        background-color: #fff;
         position: relative;
-    
+
         &::after,
         &::before {
             content: '';
@@ -45,7 +53,7 @@
             display: block;
             width: 40px;
             height: 4px;
-            background-color:#fff;
+            background-color: #fff;
 
         }
 
@@ -54,75 +62,83 @@
         }
     }
 
-    &__nav{
-        // padding: 30px;
+    &__nav {
         height: auto;
         grid-row: 1/2;
         grid-column: 2/3;
         display: flex;
-        // justify-content: flex-end;
         align-items: center;
-        justify-items:flex-end;
-        // width: max-content;
-        row-gap: 15px;
-        // border: solid;
+        justify-items: flex-end;
 
         @include media(768px) {
-            padding: 10px;
+            column-gap: 0px;
+            row-gap: 5px;
             display: none;
             grid-row: 2/3;
-            grid-column: 1/3;
-            justify-content:stretch;
+            grid-column: 1/4;
+            justify-content: stretch;
             flex-direction: column;
-
             margin-top: 20px;
+            
         }
-       
+
 
     }
-    &__link{
-        padding: 10px;
+
+    &__link {
+        padding: 10px 10px;
         text-transform: uppercase;
         width: 100%;
         transition: 0.5s;
         align-items: center;
         display: flex;
         justify-content: center;
-        height: 100%;
+        background-color: transparent;
+        color: #fff;
 
-        >*{
-            color: #fff;
-            background-color: transparent;
-        }
-    
-        &:hover{
+        &:hover {
             background-color: #3e3e46;
         }
+    }
 
+    &__connect {
+        text-transform: uppercase;
+        background-color: transparent;
+        height: fit-content;
+        align-self: center;
+        background-color: rgb(62 62 70);
+        border: none;
+        padding: 10px 20px;
+        border-radius: 50px;
+        color: #fff;
+
+        &:hover {
+            background-color: #3e3e46;
+        }
     }
 
 }
-.show{
+
+.show {
     display: flex;
-    
+    align-items: stretch;
+
 }
 
-.cross{
+.cross {
     visibility: hidden;
-    
-    &::before{
-        visibility:visible;
+
+    &::before {
+        visibility: visible;
         transform: rotate(-45deg);
         top: 0px;
         transition: 0.5s;
-       
     }
-    &::after{
-        visibility:visible;
+
+    &::after {
+        visibility: visible;
         transform: rotate(45deg);
         top: 0px;
         transition: 0.5s;
     }
-    
-
 }

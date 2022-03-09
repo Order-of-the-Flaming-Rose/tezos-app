@@ -1,9 +1,12 @@
+/* eslint-disable no-console */
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styles from './Header.module.scss';
 import headerLogo from '../../imgs/title.png';
+import { useWalletContext } from '../../contexts/WalletContext/WalletContext';
 
 function Header() {
+  const { walletAddress, getWallet } = useWalletContext();
   const history = useHistory();
   const [showNav, setShowNav] = useState(false);
   const navClass = showNav
@@ -13,6 +16,8 @@ function Header() {
   const iconClass = !showNav
     ? styles.header__icon
     : `${styles.header__icon} ${styles.cross}`;
+
+  console.log(walletAddress);
 
   return (
     <header className={styles.header}>
@@ -31,7 +36,7 @@ function Header() {
         <span className={iconClass} />
       </button>
       <nav className={navClass}>
-        <li className={styles.header__link}>
+        <li>
           <button
             type='button'
             className={styles.header__link}
@@ -42,7 +47,7 @@ function Header() {
           </button>
         </li>
 
-        <li className={styles.header__link}>
+        <li>
           <button
             type='button'
             className={styles.header__link}
@@ -52,7 +57,7 @@ function Header() {
             summary
           </button>
         </li>
-        <li className={styles.header__link}>
+        <li>
           <button
             type='button'
             className={styles.header__link}
@@ -63,6 +68,14 @@ function Header() {
           </button>
         </li>
       </nav>
+      <button
+        type='button'
+        className={styles.header__connect}
+        onClick={() => getWallet()}
+        onKeyPress={() => getWallet()}
+      >
+        connect
+      </button>
     </header>
   );
 }
