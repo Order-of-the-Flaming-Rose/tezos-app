@@ -10,8 +10,19 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import User from '../../services/Api/User';
+
+import { TezosToolkit } from '@taquito/taquito';
+import { BeaconWallet } from '@taquito/beacon-wallet';
+import { NetworkType } from '@airgap/beacon-sdk';
 import { TZKTService } from '../../api/tzktClient';
+
+const network = NetworkType.HANGZHOUNET;
+const rpcUrl = 'https://hangzhounet.api.tez.ie';
+const wallet = new BeaconWallet({
+  preferredNetwork: network,
+  name: 'some name',
+});
+const Tezos = new TezosToolkit(rpcUrl);
 
 type TWalletContextValue = {
   isError: boolean;
@@ -28,6 +39,7 @@ type TWalletContextValue = {
   scrollHandler: (e: any) => void;
   walletAddress: string;
   getWallet: () => void;
+  tokens: number | string;
 };
 
 const defaultState: TWalletContextValue = {
@@ -45,6 +57,7 @@ const defaultState: TWalletContextValue = {
   scrollHandler: () => undefined,
   walletAddress: '',
   getWallet: () => undefined,
+  tokens: 0,
 };
 
 const WalletContext = createContext(defaultState);
@@ -66,9 +79,7 @@ type TWalletProps = {
 
 export function WalletProvider({ children }: TWalletProps) {
   // wallet address
-  const [walletAddress, setWalletAddress] = useState(
-    'tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq',
-  );
+  const [walletAddress, setWalletAddress] = useState('');
   // activity is list of operations of the current wallet
   const [lastId, setLastId] = useState(0);
   const [activity, setActivity] = useState<any[]>([]);
@@ -78,12 +89,16 @@ export function WalletProvider({ children }: TWalletProps) {
   const [fetching, setFetching] = useState(false);
   const [balance, setBalance] = useState({});
   const [auth, setAuth] = useState(false);
+  const [tokens, getTokens] = useState(0);
 
   const getWallet = async () => {
-    const UserInstance = new User('https://hangzhounet.api.tez.ie');
-    const wal = await UserInstance.connectWallet();
-    // console.log(wal);
-    setWalletAddress(wal);
+    await wallet.requestPermissions({ network: { type: network } });
+
+    const activeAccount = await wallet.client.getActiveAccount();
+    Tezos.setWalletProvider(wallet);
+    console.log(activeAccount);
+    const val = activeAccount?.address;
+    setWalletAddress(val || '');
   };
   // after login access runs getAuth func
   const getAuth = (val: boolean) => setAuth(val);
@@ -163,6 +178,23 @@ export function WalletProvider({ children }: TWalletProps) {
     [lastId],
   );
 
+  useEffect(() => {
+    console.log('start');
+    if (!walletAddress) return;
+    const getTokensX = async () => {
+      try {
+        const rec = await TZKTService.getAllowance(walletAddress);
+        const val = rec.data.value.balance;
+        console.log(val);
+        getTokens(val);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getTokensX();
+  }, [walletAddress]);
+
   // context value data
   const contextValue = useMemo(
     () => ({
@@ -181,9 +213,11 @@ export function WalletProvider({ children }: TWalletProps) {
       scrollHandler,
       getBalance,
       getWallet,
+      tokens,
     }),
-    [lastId, activity, balance, walletAddress, auth],
+    [lastId, activity, balance, walletAddress, auth, tokens],
   );
+  console.log(tokens);
 
   return (
     <WalletContext.Provider value={contextValue}>

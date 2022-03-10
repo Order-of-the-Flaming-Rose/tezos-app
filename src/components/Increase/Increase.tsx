@@ -12,6 +12,8 @@ import { BeaconWallet } from '@taquito/beacon-wallet';
 import { NetworkType } from '@airgap/beacon-sdk';
 
 import styles from './Increase.module.scss';
+import { useWalletContext } from '../../contexts/WalletContext/WalletContext';
+
 
 const sendContractAddress = 'KT1B6WTvKkSZmW2882VVwQKuoxf2ubUoqgNZ';
 const approveContractAddress = 'KT1LmBK9q9KqpqCPdXuFWMYzB7a2RXaq4Htn';
@@ -22,6 +24,9 @@ const wallet = new BeaconWallet({preferredNetwork: network, name: 'some name' })
 const Tezos = new TezosToolkit(rpcUrl);
 let activeAccount 
 function Increase() {
+
+  const {tokens} = useWalletContext()
+
 
   let activeAccount:any
 
@@ -71,9 +76,10 @@ function Increase() {
       <h3 className={styles.increase__title}>increase a balance</h3>
 
       <form action='#' className={styles.increase__form}>
-        <input className={styles.increase__input} type='number' name='number' />
-        <span>left: 00</span>
-        fee : 0.3%
+        <input className={styles.increase__input} type='number' name='number' placeholder='tokens' />
+        <input className={styles.increase__input} type='text' name='fee'  placeholder='fee'/>
+        {tokens?  <span>allowance: {tokens}</span>: null}
+
         <button type='button' className={styles.increase__btn} onClick={() => approve()}>
           approve{' '}
         </button>
