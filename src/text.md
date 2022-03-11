@@ -9,9 +9,7 @@ login  - username
        - password 
 
 
-telegram - telegram 
 
-discord  - discord 
 
 ===============================
 
@@ -19,6 +17,15 @@ discord  - discord
 
 
 ===================== 
+
+telegram - telegram -> 
+
+discord  - discord 
+
+
+
+
+
  
 
 

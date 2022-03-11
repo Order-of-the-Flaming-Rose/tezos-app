@@ -35,7 +35,7 @@ function Input({ name }: TProps) {
             <input
               type='text'
               {...field}
-              autoComplete='off'
+              // autoComplete='off'
               className={inputClass}
             />
             {meta.touched && meta.error && (

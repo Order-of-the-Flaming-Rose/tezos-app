@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable no-console */
 /* eslint-disable no-debugger */
 /* eslint-disable no-unused-vars */
@@ -14,7 +15,9 @@ import React, {
 import { TezosToolkit } from '@taquito/taquito';
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import { NetworkType } from '@airgap/beacon-sdk';
+import { useHistory } from 'react-router-dom';
 import { TZKTService } from '../../api/tzktClient';
+import { API } from '../../api';
 
 const network = NetworkType.HANGZHOUNET;
 const rpcUrl = 'https://hangzhounet.api.tez.ie';
@@ -40,6 +43,7 @@ type TWalletContextValue = {
   walletAddress: string;
   getWallet: () => void;
   tokens: number | string;
+  getSummary: () => void;
 };
 
 const defaultState: TWalletContextValue = {
@@ -58,6 +62,7 @@ const defaultState: TWalletContextValue = {
   walletAddress: '',
   getWallet: () => undefined,
   tokens: 0,
+  getSummary: () => undefined,
 };
 
 const WalletContext = createContext(defaultState);
@@ -91,6 +96,8 @@ export function WalletProvider({ children }: TWalletProps) {
   const [auth, setAuth] = useState(false);
   const [tokens, getTokens] = useState(0);
 
+  const history = useHistory();
+
   const getWallet = async () => {
     await wallet.requestPermissions({ network: { type: network } });
 
@@ -102,6 +109,13 @@ export function WalletProvider({ children }: TWalletProps) {
   };
   // after login access runs getAuth func
   const getAuth = (val: boolean) => setAuth(val);
+
+  useEffect(() => {
+    if (!auth) {
+      setWalletAddress('');
+      localStorage.clear();
+    }
+  }, [auth]);
 
   // get balance during the summary page mount
   const getBalance = async () => {
@@ -195,6 +209,22 @@ export function WalletProvider({ children }: TWalletProps) {
     getTokensX();
   }, [walletAddress]);
 
+  const getSummary = async () => {
+    try {
+      const rec = await API.me();
+
+      const {
+        data: {
+          user: { address },
+        },
+      } = rec;
+      setWalletAddress(address);
+    } catch (error) {
+      console.log(error);
+      history.push('/billing');
+    }
+  };
+
   // context value data
   const contextValue = useMemo(
     () => ({
@@ -214,10 +244,10 @@ export function WalletProvider({ children }: TWalletProps) {
       getBalance,
       getWallet,
       tokens,
+      getSummary,
     }),
     [lastId, activity, balance, walletAddress, auth, tokens],
   );
-  console.log(tokens);
 
   return (
     <WalletContext.Provider value={contextValue}>
