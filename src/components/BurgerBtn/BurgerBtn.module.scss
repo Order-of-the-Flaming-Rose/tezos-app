@@ -1,0 +1,61 @@
+@import './../../styles/index.scss';
+
+.btn {
+    display: none;
+    background-color: transparent;
+    transition: 0.5s;
+
+    &:hover {
+        background-color: #3e3e46;
+    }
+
+    @include media(768px) {
+        display: block;
+        height: 68px;
+        order: 1;
+    }
+
+    &__icon {
+        width: 40px;
+        margin: auto;
+        display: block;
+        height: 4px;
+        background-color: #fff;
+        position: relative;
+
+        &::after,
+        &::before {
+            content: '';
+            top: 10px;
+            position: absolute;
+            display: block;
+            width: 40px;
+            height: 4px;
+            background-color: #fff;
+        }
+
+        &::after {
+            top: -10px;
+        }
+    }
+
+
+    &__cross {
+        visibility: hidden;
+    
+        &::before {
+            visibility: visible;
+            transform: rotate(-45deg);
+            top: 0px;
+            transition: 0.5s;
+        }
+    
+        &::after {
+            visibility: visible;
+            transform: rotate(45deg);
+            top: 0px;
+            transition: 0.5s;
+        }
+    }
+
+}

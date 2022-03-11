@@ -40,48 +40,8 @@
 
     }
 
-    &__icon {
-        width: 40px;
-        margin: auto;
-        display: block;
-        height: 4px;
-        background-color: #fff;
-        position: relative;
 
-        &::after,
-        &::before {
-            content: '';
-            top: 10px;
-            position: absolute;
-            display: block;
-            width: 40px;
-            height: 4px;
-            background-color: #fff;
 
-        }
-
-        &::after {
-            top: -10px;
-        }
-    }
-
-    &__cross {
-        visibility: hidden;
-    
-        &::before {
-            visibility: visible;
-            transform: rotate(-45deg);
-            top: 0px;
-            transition: 0.5s;
-        }
-    
-        &::after {
-            visibility: visible;
-            transform: rotate(45deg);
-            top: 0px;
-            transition: 0.5s;
-        }
-    }
 
 
 
@@ -115,22 +75,7 @@
         align-items: stretch;
     }
 
-    &__link {
-        padding: 10px 10px;
-        width: 100%;
-        align-items: center;
-        display: flex;
-        justify-content: center;
-        background-color: transparent;
-        color:inherit;
-        @extend %link-font;
-        text-transform: uppercase;
-        
 
-        &:hover {
-            background-color: #3e3e46;
-        }
-    }
 
 //login
     &__login {  

@@ -1,26 +1,20 @@
 /* eslint-disable no-console */
 import React, { useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styles from './Header.module.scss';
 import headerLogo from '../../imgs/title.png';
 import { useWalletContext } from '../../contexts/WalletContext/WalletContext';
+import LinkComponent from '../LinkComponent';
+import BurgerBtn from '../BurgerBtn';
 
 function Header() {
   const { auth, getAuth } = useWalletContext();
   const history = useHistory();
-  const location = useLocation();
-  console.log(location);
-
-  // const page = location.pathname.split('/')[1];
 
   const [showNav, setShowNav] = useState(false);
   const navClass = showNav
     ? `${styles.header__nav} ${styles.header__show}`
     : styles.header__nav;
-
-  const iconClass = !showNav
-    ? styles.header__icon
-    : `${styles.header__icon} ${styles.header__cross}`;
 
   const handler = () => {
     if (auth) {
@@ -39,35 +33,10 @@ function Header() {
           alt='header logo'
         />
       </div>
-      <button
-        type='button'
-        className={styles.header__btn}
-        onClick={() => setShowNav(!showNav)}
-      >
-        <span className={iconClass} />
-      </button>
+      <BurgerBtn onClick={() => setShowNav(!showNav)} show={showNav} />
       <nav className={navClass}>
-        <li>
-          <button
-            type='button'
-            className={styles.header__link}
-            onClick={() => history.push('/billing')}
-            onKeyPress={() => history.push('/billing')}
-          >
-            billing
-          </button>
-        </li>
-
-        <li>
-          <button
-            type='button'
-            className={styles.header__link}
-            onClick={() => history.push('/summary')}
-            onKeyPress={() => history.push('/summary')}
-          >
-            summary
-          </button>
-        </li>
+        <LinkComponent path='/summary' />
+        <LinkComponent path='/billing' />
       </nav>
       <button
         type='button'
