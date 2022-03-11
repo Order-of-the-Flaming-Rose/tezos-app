@@ -12,10 +12,6 @@ function Summary() {
     getSummary();
   }, [walletAddress]);
 
-  if (!walletAddress) {
-    return 'you dont have avelaible operations, top up your account';
-  }
-
   return (
     <div className={styles.wallet}>
       <h2 className={styles.wallet__title}>summary </h2>
