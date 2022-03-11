@@ -110,13 +110,6 @@ export function WalletProvider({ children }: TWalletProps) {
   // after login access runs getAuth func
   const getAuth = (val: boolean) => setAuth(val);
 
-  useEffect(() => {
-    if (!auth) {
-      setWalletAddress('');
-      localStorage.clear();
-    }
-  }, [auth]);
-
   // get balance during the summary page mount
   const getBalance = async () => {
     setIsLoading(true);
