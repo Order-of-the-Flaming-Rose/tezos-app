@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/button-has-type */
 /* eslint-disable no-console */
 import React from 'react';
@@ -7,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import styles from './Login.module.scss';
 import Input from '../Input';
 import { API } from '../../api';
+import { useWalletContext } from '../../contexts/WalletContext/WalletContext';
 
 type TFormValues = {
   username: string;
@@ -22,13 +24,22 @@ const validateRules = yup.object({
 });
 
 function Login() {
-  const formSubmit = (values: TFormValues) => {
+  const { getAuth } = useWalletContext();
+  const formSubmit = (values: TFormValues, actions: any) => {
     const { username, password } = values;
     console.log(values);
     API.singIn({ email: username, password })
       .then((data) => {
         localStorage.setItem('token', data.data.access_token);
         localStorage.setItem('refresh_token', data.data.refresh_token);
+        getAuth(true);
+        actions.resetForm({
+          values: {
+            username: '',
+            password: '',
+          },
+          // you can also set the other form states here
+        });
       })
       .catch((e) => console.log(e));
   };

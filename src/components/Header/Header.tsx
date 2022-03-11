@@ -1,13 +1,18 @@
 /* eslint-disable no-console */
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import styles from './Header.module.scss';
 import headerLogo from '../../imgs/title.png';
 import { useWalletContext } from '../../contexts/WalletContext/WalletContext';
 
 function Header() {
-  const { walletAddress, getWallet } = useWalletContext();
+  const { auth, getAuth } = useWalletContext();
   const history = useHistory();
+  const location = useLocation();
+  console.log(location);
+
+  const page = location.pathname.split('/')[1];
+
   const [showNav, setShowNav] = useState(false);
   const navClass = showNav
     ? `${styles.header__nav} ${styles.show}`
@@ -17,7 +22,13 @@ function Header() {
     ? styles.header__icon
     : `${styles.header__icon} ${styles.cross}`;
 
-  console.log(walletAddress);
+  const handler = () => {
+    if (auth) {
+      getAuth(false);
+      history.push('/home/login');
+    }
+    history.push('/home/login');
+  };
 
   return (
     <header className={styles.header}>
@@ -35,47 +46,42 @@ function Header() {
       >
         <span className={iconClass} />
       </button>
-      <nav className={navClass}>
-        <li>
-          <button
-            type='button'
-            className={styles.header__link}
-            onClick={() => history.push('/billing')}
-            onKeyPress={() => history.push('/billing')}
-          >
-            billing
-          </button>
-        </li>
+      {auth ? (
+        <nav className={navClass}>
+          <li>
+            <button
+              type='button'
+              className={styles.header__link}
+              onClick={() => history.push('/billing')}
+              onKeyPress={() => history.push('/billing')}
+            >
+              billing
+            </button>
+          </li>
 
-        <li>
-          <button
-            type='button'
-            className={styles.header__link}
-            onClick={() => history.push('/summary')}
-            onKeyPress={() => history.push('/summary')}
-          >
-            summary
-          </button>
-        </li>
-        <li>
-          <button
-            type='button'
-            className={styles.header__link}
-            onClick={() => history.push('/home/login')}
-            onKeyPress={() => history.push('/home/login')}
-          >
-            log in
-          </button>
-        </li>
-      </nav>
-      <button
-        type='button'
-        className={styles.header__connect}
-        onClick={() => getWallet()}
-        onKeyPress={() => getWallet()}
-      >
-        connect
-      </button>
+          <li>
+            <button
+              type='button'
+              className={styles.header__link}
+              onClick={() => history.push('/summary')}
+              onKeyPress={() => history.push('/summary')}
+            >
+              summary
+            </button>
+          </li>
+        </nav>
+      ) : null}
+
+      {page !== 'home' ? (
+        <button
+          type='button'
+          className={styles.header__connect}
+          onClick={() => handler()}
+          onKeyPress={() => handler()}
+        >
+          {auth ? 'logout' : 'login'}
+        </button>
+      ) : null}
     </header>
   );
 }
