@@ -214,7 +214,7 @@ export function WalletProvider({ children }: TWalletProps) {
       setWalletAddress(address);
     } catch (error) {
       console.log(error);
-      history.push('/billing');
+      // history.push('/billing');
     }
   };
 

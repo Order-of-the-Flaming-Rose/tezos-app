@@ -5,13 +5,13 @@ import styles from './Invite.module.scss';
 import SingleForm from '../SingleForm';
 
 export type TInput = {
-  telegram: string;
+  [key: string]: string;
 };
 const initialTelegram: TInput = {
   telegram: '',
 };
 const initialDiscord: TInput = {
-  telegram: '',
+  discord: '',
 };
 const ruleTelegram = yup.object({
   telegram: yup.string().required(),
@@ -28,15 +28,35 @@ function Invite() {
     <div className={styles.invite}>
       Invite
       <div className={styles.invite__links}>
-        {telegram ? (
-          <a href='https://t.me/bokserskayapravda'>{telegram}</a>
+        {!telegram ? (
+          <a
+            href='https://t.me/bokserskayapravda'
+            target='_blank'
+            rel='noreferrer'
+          >
+            {telegram}
+          </a>
         ) : (
-          <SingleForm init={initialTelegram} rules={ruleTelegram} />
+          <SingleForm
+            init={initialTelegram}
+            rules={ruleTelegram}
+            name='telegram'
+          />
         )}
-        {discord ? (
-          <a href='https://t.me/bokserskayapravda'>{discord}</a>
+        {!discord ? (
+          <a
+            href='https://t.me/bokserskayapravda'
+            target='_blank'
+            rel='noreferrer'
+          >
+            {discord}
+          </a>
         ) : (
-          <SingleForm init={initialDiscord} rules={ruleDiscord} />
+          <SingleForm
+            init={initialDiscord}
+            rules={ruleDiscord}
+            name='discord'
+          />
         )}
       </div>
     </div>
