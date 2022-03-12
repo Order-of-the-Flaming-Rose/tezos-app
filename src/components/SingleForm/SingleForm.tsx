@@ -29,7 +29,12 @@ function SingleForm({ init, rules, name }: TProps) {
             console.log(meta.error);
             return (
               <>
-                <input type='text' {...field} className={styles.form__input} />
+                <input
+                  type='text'
+                  {...field}
+                  placeholder={name}
+                  className={styles.form__input}
+                />
                 <input type='submit' className={styles.form__submit} />
                 {meta.touched && meta.error && (
                   <span className={styles.form__error}>{meta.error}</span>
