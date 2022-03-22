@@ -1,0 +1,23 @@
+.form{
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    font-size: 13.333px;
+    &_row{
+        flex-direction: row;
+        display: grid;
+        grid-template-columns: 1fr 100px;
+        border: solid;
+        gap: 10px;
+    }
+ 
+    
+    &__btn{
+        color: #fff;
+        font-size: 20px;
+        padding: 10px 10px;
+        border-radius: 50px;
+        background-color: rgb(62 62 70);
+        font-size: 13.333px;
+    }
+}

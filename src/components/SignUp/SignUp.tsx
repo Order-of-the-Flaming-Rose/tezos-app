@@ -1,14 +1,23 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/button-has-type */
 /* eslint-disable no-console */
-import React from 'react';
-import { Field, Form, Formik } from 'formik';
+import React, { useState } from 'react';
 import * as yup from 'yup';
 import { useHistory } from 'react-router-dom';
+import { Field } from 'formik';
+import { TezosToolkit } from '@taquito/taquito';
+import { BeaconWallet } from '@taquito/beacon-wallet';
+import { NetworkType } from '@airgap/beacon-sdk';
 import styles from './SignUp.module.scss';
-import Input from '../Input';
-import { useWalletContext } from '../../contexts/WalletContext/WalletContext';
 import { API } from '../../api';
+import Form from '../Form';
+import Button from '../Button';
+
+const network = NetworkType.HANGZHOUNET;
+const rpcUrl = 'https://hangzhounet.api.tez.ie';
+const wallet = new BeaconWallet({
+  preferredNetwork: network,
+  name: 'some name',
+});
+const Tezos = new TezosToolkit(rpcUrl);
 
 type TFormValues = {
   email: string;
@@ -16,18 +25,53 @@ type TFormValues = {
   ['confirm password']: string;
   address: string;
 };
-const initialValues: TFormValues = {
-  email: '',
-  password: '',
-  'confirm password': '',
-  address: '',
-};
 
 function SignUp() {
   const history = useHistory();
+  const [walletAddress, setWalletAddress] = useState('');
 
-  const { walletAddress, getWallet } = useWalletContext();
-  console.log(walletAddress);
+  const getWallet = async () => {
+    await wallet.requestPermissions({ network: { type: network } });
+
+    const activeAccount = await wallet.client.getActiveAccount();
+    Tezos.setWalletProvider(wallet);
+    console.log(activeAccount);
+    const val = activeAccount?.address;
+    setWalletAddress(val || '');
+  };
+
+  const fields = [
+    {
+      name: 'username',
+      type: 'text',
+    },
+    {
+      name: 'password',
+      type: 'password',
+    },
+    {
+      name: 'confirm password',
+      type: 'password',
+    },
+    {
+      name: 'address',
+      type: 'text',
+      render() {
+        return (
+          <Field name='address'>
+            {({ meta, field }: any) => (
+              <>
+                <Button onClick={() => getWallet()}>GET WALLET</Button>
+                {meta.touched && meta.error && (
+                  <span className={styles.signup__error}>{meta.error}</span>
+                )}
+              </>
+            )}
+          </Field>
+        );
+      },
+    },
+  ];
 
   const validateRules = yup.object({
     email: yup.string().required(),
@@ -50,44 +94,9 @@ function SignUp() {
   return (
     <div className={styles.signup}>
       <h2 className={styles.signup__title}>Sign Up </h2>
-      <Formik
-        onSubmit={formSubmit}
-        initialValues={initialValues}
-        validationSchema={validateRules}
-      >
-        <Form className={styles.signup__form}>
-          {Object.entries(initialValues).map((field) =>
-            field[0] === 'address' ? true : <Input name={field[0]} />,
-          )}
-
-          <Field name='wallet'>
-            {({ meta, field }: any) => (
-              <>
-                <button
-                  type='button'
-                  className={styles.signup__btn}
-                  onClick={() => getWallet()}
-                >
-                  get wallet
-                </button>
-                {meta.touched && meta.error && (
-                  <span className={styles.signup__error}>{meta.error}</span>
-                )}
-              </>
-            )}
-          </Field>
-          <input type='submit' className={styles.signup__btn} />
-          <span className={styles.signup__li}>
-            already have an account{' '}
-            <button
-              className={styles.signup__link}
-              onClick={() => history.push('/home/login')}
-            >
-              sign up
-            </button>
-          </span>
-        </Form>
-      </Formik>
+      <Form rules={validateRules} callback={formSubmit} fields={fields}>
+        hallo
+      </Form>
     </div>
   );
 }

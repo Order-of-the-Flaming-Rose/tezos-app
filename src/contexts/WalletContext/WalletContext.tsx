@@ -30,18 +30,15 @@ const Tezos = new TezosToolkit(rpcUrl);
 type TWalletContextValue = {
   isError: boolean;
   isLoading: boolean;
-  lastId: number;
-  activity: any[];
+
   balance: any;
   auth: boolean;
-  fetching: boolean;
-  setLimit: (val: boolean) => void;
+
   getAuth: (val: boolean) => void;
   getBalance: () => void;
-  dataHandler: () => void;
-  scrollHandler: (e: any) => void;
-  walletAddress: string;
   getWallet: () => void;
+  walletAddress: string;
+
   tokens: number | string;
   getSummary: () => void;
 };
@@ -49,18 +46,15 @@ type TWalletContextValue = {
 const defaultState: TWalletContextValue = {
   isError: false,
   isLoading: false,
-  lastId: 0,
-  activity: [],
+
   balance: null,
   auth: false,
-  fetching: false,
-  setLimit: () => undefined,
+
   getAuth: () => undefined,
   getBalance: () => undefined,
-  dataHandler: () => undefined,
-  scrollHandler: () => undefined,
-  walletAddress: '',
   getWallet: () => undefined,
+  walletAddress: '',
+
   tokens: 0,
   getSummary: () => undefined,
 };
@@ -84,20 +78,13 @@ type TWalletProps = {
 
 export function WalletProvider({ children }: TWalletProps) {
   // wallet address
-  const [walletAddress, setWalletAddress] = useState('');
-  // activity is list of operations of the current wallet
-  const [lastId, setLastId] = useState(0);
-  const [activity, setActivity] = useState<any[]>([]);
-  const [limit, setLimit] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-  const [fetching, setFetching] = useState(false);
-  const [balance, setBalance] = useState({});
-  const [auth, setAuth] = useState(false);
-  const [tokens, getTokens] = useState(0);
+  const [walletAddress, setWalletAddress] = useState(
+    'tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq',
+  );
 
-  const history = useHistory();
-
+  // useEffect(() => {
+  //   console.log(walletAddress);
+  // }, [walletAddress]);
   const getWallet = async () => {
     await wallet.requestPermissions({ network: { type: network } });
 
@@ -107,6 +94,15 @@ export function WalletProvider({ children }: TWalletProps) {
     const val = activeAccount?.address;
     setWalletAddress(val || '');
   };
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [balance, setBalance] = useState({});
+  const [auth, setAuth] = useState(false);
+  const [tokens, getTokens] = useState(0);
+
+  const history = useHistory();
+
   // after login access runs getAuth func
   const getAuth = (val: boolean) => setAuth(val);
 
@@ -130,69 +126,14 @@ export function WalletProvider({ children }: TWalletProps) {
       setIsLoading(false);
     }
   };
-  // first part of operation
-  const dataHandler = async () => {
-    const rec = await TZKTService.getOperations(walletAddress);
-    setActivity(rec.data);
-    setLastId(() => {
-      return rec.data[rec.data.length - 1].id;
-    });
-  };
-  // next parts of wallet operations
-  useEffect(() => {
-    const handle = async () => {
-      if (limit) return;
-
-      if (fetching) {
-        try {
-          const rec = await TZKTService.getNextOperations(
-            walletAddress,
-            lastId,
-          );
-          const { data } = rec;
-          if (!data.length) {
-            setLimit(true);
-          }
-          const copy = activity;
-          const next = copy.concat(data);
-          setActivity(next);
-          setLastId(data[data.length - 1].id);
-        } catch (e) {
-          setLimit(true);
-          console.log(e);
-        } finally {
-          setFetching(false);
-        }
-      }
-    };
-    handle();
-  }, [fetching, limit]);
-
-  // func to run fetching of operations
-  const scrollHandler = useCallback(
-    (e: any) => {
-      if (limit) {
-        return;
-      }
-      if (
-        e.target.documentElement.scrollHeight -
-          (e.target.documentElement.scrollTop + window.innerHeight) <
-        100
-      ) {
-        setFetching(true);
-      }
-    },
-    [lastId],
-  );
 
   useEffect(() => {
-    console.log('start');
     if (!walletAddress) return;
     const getTokensX = async () => {
       try {
         const rec = await TZKTService.getAllowance(walletAddress);
         const val = rec.data.value.balance;
-        console.log(val);
+
         getTokens(val);
       } catch (error) {
         console.log(error);
@@ -214,32 +155,35 @@ export function WalletProvider({ children }: TWalletProps) {
       setWalletAddress(address);
     } catch (error) {
       console.log(error);
-      // history.push('/billing');
+      history.push('/billing');
     }
   };
 
   // context value data
   const contextValue = useMemo(
     () => ({
-      auth,
-      getAuth,
       isError,
       isLoading,
-      lastId,
-      activity,
+      // fetching,
+
+      // auth
+      auth,
+      getAuth,
+
+      // balance
       balance,
-      fetching,
-      // here
-      setLimit,
-      walletAddress,
-      dataHandler,
-      scrollHandler,
       getBalance,
-      getWallet,
-      tokens,
+
+      // get wallet to sign up
+
+      // summary
       getSummary,
+      getWallet,
+      walletAddress,
+      // part of summary
+      tokens,
     }),
-    [lastId, activity, balance, walletAddress, auth, tokens],
+    [balance, walletAddress, auth, tokens],
   );
 
   return (

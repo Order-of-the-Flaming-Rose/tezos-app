@@ -3,6 +3,7 @@
         "bigmaps",
         "discrord",
         "Formik",
+        "GETACTIVITY",
         "GETFORM",
         "GETWALLET",
         "getwalletcard",
@@ -13,6 +14,9 @@
         "sendcard",
         "signup",
         "STEPBACK",
+        "Tconfig",
+        "Tfield",
+        "Tstate",
         "TZKT",
         "userdata"
     ]

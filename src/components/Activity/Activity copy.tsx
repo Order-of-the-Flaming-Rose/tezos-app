@@ -6,7 +6,7 @@ import { useOperationsContext } from '../../contexts/OperationsContext/Operation
 import styles from './Activity.module.scss';
 
 function Activity() {
-  const {scrollHandler, dataHandler, activity, loading } =
+  const {scrollHandler, dataHandler, activity, lastId, loading } =
     useOperationsContext();
 
 
@@ -21,7 +21,7 @@ function Activity() {
     return function () {
       document.removeEventListener('scroll', scrollHandler);
     };
-  }, []);
+  }, [lastId]);
 
 
 

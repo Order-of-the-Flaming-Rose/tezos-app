@@ -1,16 +1,18 @@
+/* eslint-disable no-console */
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect } from 'react';
 import Activity from '../../components/Activity';
 import Balance from '../../components/Balance';
 import Invite from '../../components/Invite';
-import { useWalletContext } from '../../contexts/WalletContext/WalletContext';
+// import { useWalletContext } from '../../contexts/WalletContext/WalletContext';
 import styles from './Summary.module.scss';
 
 function Summary() {
-  const { walletAddress, getSummary } = useWalletContext();
+  // const { walletAddress, getSummary } = useWalletContext();
 
-  useEffect(() => {
-    getSummary();
-  }, [walletAddress]);
+  // useEffect(() => {
+  //   getSummary();
+  // }, [walletAddress]);
 
   return (
     <div className={styles.wallet}>
