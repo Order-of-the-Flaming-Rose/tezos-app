@@ -33,7 +33,7 @@ function Activity() {
           return (
             <li key={op.id} className={styles.item}>
               {(op.type === 'transaction')?<span className={styles.item__amount}> amount : {op.amount}</span>:null}
-              <span className={styles.item__time}>10:30 02-03-22</span>
+              <span className={styles.item__time}>{op.timestamp}</span>
 
             {(op.type === 'transaction')
             ? <>

@@ -16,6 +16,7 @@ import React, {
 
 import { TZKTService } from '../../api/tzktClient';
 import activityReducer, { Tstate, types } from '../../utils/activityReducer';
+import fetchReducer, { fetchTypes } from '../../utils/fetchReducer';
 import { useWalletContext } from '../WalletContext/WalletContext';
 
 type TOperationsContextValue = {
@@ -24,6 +25,7 @@ type TOperationsContextValue = {
   dataHandler: () => void;
   scrollHandler: (e: any) => void;
   loading: boolean;
+  error: boolean;
 };
 
 const defaultState: TOperationsContextValue = {
@@ -32,6 +34,7 @@ const defaultState: TOperationsContextValue = {
   dataHandler: () => undefined,
   scrollHandler: () => undefined,
   loading: false,
+  error: false,
 };
 
 const OperationsContext = createContext(defaultState);
@@ -49,18 +52,25 @@ export const useOperationsContext = () => {
 function OperationsProvider({ children }: { children: React.ReactNode }) {
   const { walletAddress } = useWalletContext();
   const [fetching, setFetching] = useState(false);
-  const [loading, setLoading] = useState(false);
   const limit = useRef(false);
 
   const initialState: Tstate = {
     activity: [],
     lastId: 0,
   };
+  const initialLoading: { loading: boolean; error: boolean } = {
+    loading: false,
+    error: false,
+  };
 
   const [state, dispatch] = useReducer(activityReducer, initialState);
+  const [loadingState, loadingDispatch] = useReducer(
+    fetchReducer,
+    initialLoading,
+  );
 
   const dataHandler = useCallback(async () => {
-    setLoading(true);
+    loadingDispatch({ type: fetchTypes.START });
     try {
       const rec = await TZKTService.getOperations(walletAddress);
       dispatch({
@@ -72,8 +82,9 @@ function OperationsProvider({ children }: { children: React.ReactNode }) {
       });
     } catch (error) {
       console.log(error);
+      loadingDispatch({ type: fetchTypes.CATCH });
     } finally {
-      setLoading(false);
+      loadingDispatch({ type: fetchTypes.FINISH });
     }
   }, []);
 
@@ -81,15 +92,16 @@ function OperationsProvider({ children }: { children: React.ReactNode }) {
     const handle = async () => {
       if (limit.current) return;
       if (fetching) {
-        setLoading(true);
+        loadingDispatch({ type: fetchTypes.START });
         try {
           const rec = await TZKTService.getNextOperations(
             walletAddress,
             state.lastId,
           );
           const { data } = rec;
-          if (!data.length) {
+          if (data.length < 5) {
             limit.current = true;
+            console.log(rec.data[rec.data.length - 1].id);
           }
           dispatch({
             type: types.GETACTIVITY,
@@ -103,7 +115,7 @@ function OperationsProvider({ children }: { children: React.ReactNode }) {
           console.log(e);
         } finally {
           setFetching(false);
-          setLoading(false);
+          loadingDispatch({ type: fetchTypes.FINISH });
         }
       }
     };
@@ -133,9 +145,10 @@ function OperationsProvider({ children }: { children: React.ReactNode }) {
       activity: state.activity,
       scrollHandler,
       dataHandler,
-      loading,
+      loading: loadingState.loading,
+      error: loadingState.error,
     }),
-    [state.activity, loading],
+    [state.activity, loadingState.loading],
   );
 
   return (
