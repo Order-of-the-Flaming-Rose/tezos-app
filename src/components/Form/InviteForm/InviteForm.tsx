@@ -4,8 +4,8 @@
 import React from 'react';
 import { Field, Form, Formik } from 'formik';
 
-import { TInput } from '../Invite/Invite';
-import styles from './SingleForm.module.scss';
+import { TInput } from '../../Invite/Invite';
+import styles from './InviteForm.module.scss';
 
 type TProps = {
   init: TInput;
@@ -13,9 +13,8 @@ type TProps = {
   name: string;
 };
 
-function SingleForm({ init, rules, name }: TProps) {
+function InviteForm({ init, rules, name }: TProps) {
   const formHandler = (val: TInput) => console.log(val);
-  console.log(init);
 
   return (
     <Formik
@@ -26,7 +25,6 @@ function SingleForm({ init, rules, name }: TProps) {
       <Form className={styles.form}>
         <Field name={name}>
           {({ meta, field }: { meta: any; field: any }) => {
-            console.log(meta.error);
             return (
               <>
                 <input
@@ -48,4 +46,4 @@ function SingleForm({ init, rules, name }: TProps) {
   );
 }
 
-export default SingleForm;
+export default InviteForm;

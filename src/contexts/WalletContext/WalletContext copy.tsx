@@ -9,14 +9,23 @@ import React, {
   useContext,
   useEffect,
   useMemo,
-  useReducer,
   useState,
 } from 'react';
-import { useHistory } from 'react-router-dom';
 
-import { API } from '../../api';
+import { TezosToolkit } from '@taquito/taquito';
+import { BeaconWallet } from '@taquito/beacon-wallet';
+import { NetworkType } from '@airgap/beacon-sdk';
+import { useHistory } from 'react-router-dom';
 import { TZKTService } from '../../api/tzktClient';
-import fetchReducer, { Tfetch, fetchTypes } from '../../utils/fetchReducer';
+import { API } from '../../api';
+
+const network = NetworkType.HANGZHOUNET;
+const rpcUrl = 'https://hangzhounet.api.tez.ie';
+const wallet = new BeaconWallet({
+  preferredNetwork: network,
+  name: 'some name',
+});
+const Tezos = new TezosToolkit(rpcUrl);
 
 type TWalletContextValue = {
   isError: boolean;
@@ -27,7 +36,7 @@ type TWalletContextValue = {
 
   getAuth: (val: boolean) => void;
   getBalance: () => void;
-
+  getWallet: () => void;
   walletAddress: string;
 
   tokens: number | string;
@@ -43,7 +52,7 @@ const defaultState: TWalletContextValue = {
 
   getAuth: () => undefined,
   getBalance: () => undefined,
-
+  getWallet: () => undefined,
   walletAddress: '',
 
   tokens: 0,
@@ -73,15 +82,21 @@ export function WalletProvider({ children }: TWalletProps) {
     'tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq',
   );
 
+  const getWallet = async () => {
+    await wallet.requestPermissions({ network: { type: network } });
+
+    const activeAccount = await wallet.client.getActiveAccount();
+    Tezos.setWalletProvider(wallet);
+    console.log(activeAccount);
+    const val = activeAccount?.address;
+    setWalletAddress(val || '');
+  };
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [balance, setBalance] = useState({});
   const [auth, setAuth] = useState(false);
   const [tokens, getTokens] = useState(0);
-  const initialState: Tfetch = {
-    loading: false,
-    error: false,
-  };
-
-  const [state, dispatch] = useReducer(fetchReducer, initialState);
 
   const history = useHistory();
 
@@ -90,7 +105,8 @@ export function WalletProvider({ children }: TWalletProps) {
 
   // get balance during the summary page mount
   const getBalance = async () => {
-    dispatch({ type: fetchTypes.START });
+    setIsLoading(true);
+    setIsError(false);
 
     try {
       const rec = await TZKTService.getAccount(walletAddress);
@@ -100,13 +116,11 @@ export function WalletProvider({ children }: TWalletProps) {
         data: { quoteUsd },
       } = quote;
       const next = { xtz, quoteUsd };
-
       setBalance(next);
     } catch (error) {
-      console.log(error);
-      dispatch({ type: fetchTypes.CATCH });
+      setIsError(true);
     } finally {
-      dispatch({ type: fetchTypes.FINISH });
+      setIsLoading(false);
     }
   };
 
@@ -145,8 +159,8 @@ export function WalletProvider({ children }: TWalletProps) {
   // context value data
   const contextValue = useMemo(
     () => ({
-      isError: state.error,
-      isLoading: state.loading,
+      isError,
+      isLoading,
       // fetching,
 
       // auth
@@ -161,11 +175,12 @@ export function WalletProvider({ children }: TWalletProps) {
 
       // summary
       getSummary,
+      getWallet,
       walletAddress,
       // part of summary
       tokens,
     }),
-    [getBalance, balance, walletAddress, auth, tokens, state.loading],
+    [balance, walletAddress, auth, tokens],
   );
 
   return (

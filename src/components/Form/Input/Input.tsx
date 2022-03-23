@@ -19,8 +19,9 @@ type TFieldTypes = {
 
 type TProps = {
   name: string;
+  type: string;
 };
-function Input({ name }: TProps) {
+function Input({ name, type }: TProps) {
   return (
     <Field name={name}>
       {({ meta, field }: TFieldTypes) => {
@@ -33,7 +34,7 @@ function Input({ name }: TProps) {
           <div className={styles.input__container}>
             {name}
             <input
-              type='text'
+              type={type}
               {...field}
               // autoComplete='off'
               className={inputClass}

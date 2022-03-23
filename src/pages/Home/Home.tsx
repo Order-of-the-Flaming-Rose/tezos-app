@@ -12,7 +12,7 @@ import logo from '../../imgs/logo.png';
 
 function Home() {
   let { path, url } = useRouteMatch();
-  console.log(url);
+  // console.log(url);
   const auth = true;
   return (
     <div className={styles.home}>

@@ -2,7 +2,7 @@
 import * as yup from 'yup';
 import React from 'react';
 import styles from './Invite.module.scss';
-import SingleForm from '../SingleForm';
+import SingleForm from '../Form/InviteForm';
 
 export type TInput = {
   [key: string]: string;
