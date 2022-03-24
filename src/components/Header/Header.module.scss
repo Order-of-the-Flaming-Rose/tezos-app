@@ -65,8 +65,11 @@
     }
 
     &__show {
-        display: flex;
-        align-items: stretch;
+        @include media(768px) {
+            display: flex;
+            align-items: stretch;
+        }
+     
     }
 
     //login
