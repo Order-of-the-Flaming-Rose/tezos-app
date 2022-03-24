@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styles from './Header.module.scss';
 import headerLogo from '../../imgs/title.png';
@@ -24,8 +24,38 @@ function Header() {
     history.push('/home/login');
   };
 
+  const [small, setSmall] = useState(false);
+  const navRef = useRef<HTMLHeadingElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', () =>
+        setSmall(window.pageYOffset > 50),
+      );
+    }
+  }, []);
+
+  const headerClass = small
+    ? `${styles.header} ${styles.header__small}`
+    : styles.header;
+
+  const clickOutside = useCallback((e: MouseEvent | any): void => {
+    if (navRef.current && !navRef.current.contains(e.target)) {
+      e.stopImmediatePropagation();
+      setShowNav(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (showNav) {
+      document.addEventListener('mousedown', clickOutside);
+    } else {
+      document.removeEventListener('mousedown', clickOutside);
+    }
+  }, [showNav]);
+
   return (
-    <header className={styles.header}>
+    <header className={headerClass}>
       <div className={styles.header__logo}>
         <img
           src={headerLogo}
@@ -34,7 +64,7 @@ function Header() {
         />
       </div>
       <BurgerBtn onClick={() => setShowNav(!showNav)} show={showNav} />
-      <nav className={navClass}>
+      <nav className={navClass} ref={navRef}>
         <LinkComponent path='/summary' />
         <LinkComponent path='/billing' />
       </nav>
