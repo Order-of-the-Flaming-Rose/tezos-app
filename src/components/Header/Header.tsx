@@ -6,6 +6,7 @@ import headerLogo from '../../imgs/title.png';
 import { useWalletContext } from '../../contexts/WalletContext/WalletContext';
 import LinkComponent from '../LinkComponent';
 import BurgerBtn from '../BurgerBtn';
+import userIcon from '../../imgs/user-svgrepo-com.svg';
 
 function Header() {
   const { auth, getAuth } = useWalletContext();
@@ -60,22 +61,27 @@ function Header() {
       <div className={styles.header__logo}>
         <img
           src={headerLogo}
-          className={styles.header__logo}
+          className={styles.header__img}
           alt='header logo'
         />
       </div>
-      <BurgerBtn onClick={() => setShowNav(!showNav)} show={showNav} />
+
+      <div className={styles.header__btn}>
+        <BurgerBtn onClick={() => setShowNav(!showNav)} show={showNav} />
+      </div>
+
       <nav className={navClass} ref={navRef}>
         <LinkComponent path='/summary' />
         <LinkComponent path='/billing' />
       </nav>
+
       <button
         type='button'
         className={styles.header__login}
         onClick={() => handler()}
         onKeyPress={() => handler()}
       >
-        {auth ? 'logout' : 'login'}
+        <img src={userIcon} alt='' className={styles.header__icon} />
       </button>
     </header>
   );
