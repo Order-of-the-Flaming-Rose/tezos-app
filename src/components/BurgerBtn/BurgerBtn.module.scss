@@ -1,20 +1,15 @@
 @import './../../styles/index.scss';
 
 .btn {
-    display: none;
     background-color: transparent;
     transition: 0.5s;
-
+    height: 58px;
+    width: 58px;
+    
     &:hover {
         background-color: #3e3e46;
     }
-
-    @include media(768px) {
-        display: block;
-        height: 68px;
-        order: 1;
-    }
-
+     
     &__icon {
         width: 40px;
         margin: auto;
