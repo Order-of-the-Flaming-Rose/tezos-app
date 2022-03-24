@@ -10,9 +10,14 @@
     color:inherit;
     @extend %link-font;
     text-transform: uppercase;
+   
     
 
     &:hover {
         background-color: #3e3e46;
+
+        @include media(768px) {
+            background: linear-gradient(to right, rgba(0,0,0,0.1), #3e3e46, rgba(0,0,0,0.1))
+        }
     }
 }

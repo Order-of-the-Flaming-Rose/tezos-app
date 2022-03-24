@@ -25,7 +25,7 @@ function Header() {
   };
 
   const [small, setSmall] = useState(false);
-  const navRef = useRef<HTMLHeadingElement | null>(null);
+  const navRef = useRef<HTMLElement | any>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -35,12 +35,13 @@ function Header() {
     }
   }, []);
 
-  const headerClass = small
-    ? `${styles.header} ${styles.header__small}`
-    : styles.header;
+  const headerClass =
+    small || showNav
+      ? `${styles.header} ${styles.header__small}`
+      : styles.header;
 
-  const clickOutside = useCallback((e: MouseEvent | any): void => {
-    if (navRef.current && !navRef.current.contains(e.target)) {
+  const clickOutside = useCallback((e: MouseEvent): void => {
+    if (navRef.current && !navRef.current?.contains(e.target)) {
       e.stopImmediatePropagation();
       setShowNav(false);
     }
@@ -48,9 +49,9 @@ function Header() {
 
   useEffect(() => {
     if (showNav) {
-      document.addEventListener('mousedown', clickOutside);
+      document.addEventListener('click', clickOutside);
     } else {
-      document.removeEventListener('mousedown', clickOutside);
+      document.removeEventListener('click', clickOutside);
     }
   }, [showNav]);
 
