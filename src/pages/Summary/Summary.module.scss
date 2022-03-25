@@ -6,6 +6,7 @@
     grid-template-rows: auto auto 1fr;
     gap: 20px;
     padding: 40px;
+   
 
     @include media(768px){
         grid-template-columns: 1fr;
@@ -19,6 +20,12 @@
         text-align: center;
         font-size: 25px;
         padding: 20px 0;
+        font-family: 'IBM Plex Sans Arabic', sans-serif; 
+        font-weight: 400;
+        color: rgba(220, 220 ,220 ,0.8);
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        
         @include media(768px){
             grid-column: 1/2;
         }
@@ -31,6 +38,7 @@
         height: 400px;
         height: auto;
         border: solid 0.1px rgb(214, 75, 120);
+        border-radius: 7px; 
         font-size: 16px;
         @include media(768px){
             grid-column: 1/2;
@@ -52,6 +60,7 @@
         border: solid;
         padding: 10px;
         border: solid 0.1px rgb(214, 75, 120);
+        border-radius: 7px; 
         @include media(768px){
             grid-column: 1/2;
             grid-row: 2/3;

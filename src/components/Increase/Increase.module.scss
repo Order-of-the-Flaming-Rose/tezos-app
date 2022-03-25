@@ -10,15 +10,25 @@
     border-radius: 18px; 
     border: solid 0.1px rgb(214, 75, 120);
 
+    color: rgba(220, 220 ,220 ,0.8);
+    font-family: 'IBM Plex Sans Arabic', sans-serif; 
+    font-weight: 400;
+
     &__title{ 
         grid-column: 2/3;
         text-align: center;
         font-size: 20px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        line-height: 23px;
     }
     &__form{  
         display: grid;
         grid-column: 2/3;
         gap: 10px; 
+    }
+    &__allowance{
+        padding-left: 10px;
     }
 
     &__input{

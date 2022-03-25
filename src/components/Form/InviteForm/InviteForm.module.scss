@@ -15,6 +15,9 @@
         background-position: right;
         color: #fff;
         padding: 0 10px;
+        color: rgba(220, 220 ,220 ,0.8);
+        font-family: 'IBM Plex Sans Arabic', sans-serif; 
+        font-weight: 400;
 
         &:hover{
             background-position:left;
@@ -31,6 +34,13 @@
         color: #fff;
         border: none;
         width: fit-content;
+        color: rgba(220, 220 ,220 ,0.8);
+        font-family: 'IBM Plex Sans Arabic', sans-serif; 
+        font-weight: 400;
+
+        &:hover{
+            filter: brightness(150%);
+        }
     }
 
     &__error{
