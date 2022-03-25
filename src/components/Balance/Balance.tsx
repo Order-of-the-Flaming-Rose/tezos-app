@@ -20,11 +20,11 @@ function Balance() {
         'loading ...'
       ) : (
         <>
-          <div className={styles.balance__usd}>{address}</div>
-          <div className={styles.balance__tz}>{`${
+          <div className={styles.balance__usd}>address {address}</div>
+          <div className={styles.balance__tz}>{`amount ${
             balance.xtz / 1000000
           } ꜩ`}</div>
-          <div className={styles.balance__usd}>{`${usa} $`}</div>
+          <div className={styles.balance__usd}>{`currency ${usa} $`}</div>
         </>
       )}
     </div>

@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-console */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -42,7 +43,11 @@ function Header() {
   }, []);
 
   const headerClass =
-    small || showNav
+    small && showNav
+      ? `${styles.header} ${styles.header__open}`
+      : showNav && !small
+      ? `${styles.header} ${styles.header__open}`
+      : small && !showNav
       ? `${styles.header} ${styles.header__small}`
       : styles.header;
 

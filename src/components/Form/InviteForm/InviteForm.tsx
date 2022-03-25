@@ -33,7 +33,11 @@ function InviteForm({ init, rules, name }: TProps) {
                   placeholder={name}
                   className={styles.form__input}
                 />
-                <input type='submit' className={styles.form__submit} />
+                <input
+                  type='submit'
+                  className={styles.form__submit}
+                  value='get an invite'
+                />
                 {meta.touched && meta.error && (
                   <span className={styles.form__error}>{meta.error}</span>
                 )}

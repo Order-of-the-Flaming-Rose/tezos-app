@@ -80,7 +80,11 @@ function Increase() {
           name='fee'
           placeholder='fee'
         />
-        {tokens ? <span>allowance: {tokens}</span> : null}
+        {tokens ? (
+          <span className={styles.increase__allowance}>
+            allowance: {tokens}
+          </span>
+        ) : null}
 
         <Button onClick={() => approve()}>approve</Button>
 
