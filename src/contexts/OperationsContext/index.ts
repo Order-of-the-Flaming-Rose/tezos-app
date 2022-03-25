@@ -1,3 +1,11 @@
-import { OperationsContext, OperationsProvider } from './OperationsContext';
+import {
+  useOperationsDispatchContext,
+  useOperationsStateContext,
+  OperationsProvider,
+} from './OperationsContext';
 
-export { OperationsContext, OperationsProvider };
+export {
+  useOperationsDispatchContext,
+  useOperationsStateContext,
+  OperationsProvider,
+};

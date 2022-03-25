@@ -3,7 +3,7 @@ import AppRouter from '../../route/AppRouter';
 import '../../styles/index.scss';
 import Header from '../Header';
 import styles from './App.module.scss';
-import WalletProvider from '../../contexts/WalletContext';
+import { WalletProvider } from '../../contexts/WalletContext';
 import { OperationsProvider } from '../../contexts/OperationsContext';
 
 function App() {
