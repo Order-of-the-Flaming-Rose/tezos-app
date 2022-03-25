@@ -3,13 +3,18 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styles from './Header.module.scss';
 import headerLogo from '../../imgs/title.png';
-import { useWalletContext } from '../../contexts/WalletContext/WalletContext';
+
 import LinkComponent from '../LinkComponent';
 import BurgerBtn from '../BurgerBtn';
 import userIcon from '../../imgs/user-svgrepo-com.svg';
+import {
+  useWalletDispatchContext,
+  useWalletStateContext,
+} from '../../contexts/WalletContext';
 
 function Header() {
-  const { auth, getAuth } = useWalletContext();
+  const { auth } = useWalletStateContext();
+  const { getAuth } = useWalletDispatchContext();
   const history = useHistory();
 
   const [showNav, setShowNav] = useState(false);

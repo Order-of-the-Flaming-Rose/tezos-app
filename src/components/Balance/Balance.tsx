@@ -1,10 +1,14 @@
-/* eslint-disable no-console */
 import React, { useEffect } from 'react';
-import { useWalletContext } from '../../contexts/WalletContext/WalletContext';
+import {
+  useWalletDispatchContext,
+  useWalletStateContext,
+} from '../../contexts/WalletContext';
+
 import styles from './Balance.module.scss';
 
 function Balance() {
-  const { getBalance, balance, walletAddress, isLoading } = useWalletContext();
+  const { balance, walletAddress, isLoading } = useWalletStateContext();
+  const { getBalance } = useWalletDispatchContext();
 
   const usa = ((balance.xtz / 1000000) * balance.quoteUsd).toFixed(2);
   const address = `${walletAddress.slice(0, 4)}...${walletAddress.slice(-4)}`;

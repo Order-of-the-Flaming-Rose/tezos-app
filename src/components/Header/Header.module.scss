@@ -65,21 +65,13 @@
             flex-direction: column;
             
         }
-        @include media(576px) {
-            grid-row: 4/5;
-            grid-column: 1/2;
-            border: solid;
-        
-        }
     }
 
     &__show {
         @include media(768px) {
             display: flex;
             align-items: stretch;
-        }
-
-     
+        }     
     }
     //login
     &__login {

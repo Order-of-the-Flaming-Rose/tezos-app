@@ -1,10 +1,14 @@
 import React, { useEffect } from 'react';
-import { useOperationsContext } from '../../contexts/OperationsContext/OperationsContext';
+import {
+  useOperationsDispatchContext,
+  useOperationsStateContext,
+} from '../../contexts/OperationsContext';
+
 import styles from './Activity.module.scss';
 
 function Activity() {
-  const { scrollHandler, dataHandler, activity, loading } =
-    useOperationsContext();
+  const { activity, loading } = useOperationsStateContext();
+  const { scrollHandler, dataHandler } = useOperationsDispatchContext();
 
   useEffect(() => {
     dataHandler();

@@ -1,3 +1,7 @@
-import { WalletProvider } from './WalletContext';
+import {
+  useWalletDispatchContext,
+  useWalletStateContext,
+  WalletProvider,
+} from './WalletContext';
 
-export default WalletProvider;
+export { useWalletDispatchContext, useWalletStateContext, WalletProvider };

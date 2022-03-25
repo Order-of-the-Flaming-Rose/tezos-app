@@ -18,56 +18,47 @@ import { API } from '../../api';
 import { TZKTService } from '../../api/tzktClient';
 import fetchReducer, { Tfetch, fetchTypes } from '../../utils/fetchReducer';
 
-type TWalletContextValue = {
+type TWalletStateValue = {
   isError: boolean;
   isLoading: boolean;
-
   balance: any;
   auth: boolean;
-
-  getAuth: (val: boolean) => void;
-  getBalance: () => void;
-
   walletAddress: string;
-
   tokens: number | string;
-  getSummary: () => void;
 };
 
-const defaultState: TWalletContextValue = {
+const walletDefaultState: TWalletStateValue = {
   isError: false,
   isLoading: false,
-
   balance: null,
   auth: false,
+  walletAddress: '',
+  tokens: 0,
+};
+const WalletStateContext = createContext(walletDefaultState);
+//= =============
 
+type TWalletDispatchValue = {
+  getAuth: (val: boolean) => void;
+  getBalance: () => void;
+  getSummary: () => void;
+  getWallet: () => void;
+};
+
+const walletDefaultDispatch: TWalletDispatchValue = {
   getAuth: () => undefined,
   getBalance: () => undefined,
-
-  walletAddress: '',
-
-  tokens: 0,
+  getWallet: () => undefined,
   getSummary: () => undefined,
 };
-
-const WalletContext = createContext(defaultState);
-export const useWalletContext = () => {
-  const ctx = useContext(WalletContext);
-  if (!ctx) {
-    throw new Error(
-      'you are not into Provider of the contexts, make sure the component wrapped in the Provider',
-    );
-  }
-
-  return ctx;
-};
+const WalletDispatchContext = createContext(walletDefaultDispatch);
 
 type TWalletProps = {
   children: React.ReactNode;
 };
 // walletAddress,
 
-export function WalletProvider({ children }: TWalletProps) {
+function WalletProvider({ children }: TWalletProps) {
   // wallet address
   const [walletAddress, setWalletAddress] = useState(
     'tz1RB9RXTv6vpuH9WnyyG7ByUzwiHDHGqHzq',
@@ -143,34 +134,58 @@ export function WalletProvider({ children }: TWalletProps) {
   };
 
   // context value data
-  const contextValue = useMemo(
+
+  const stateValue: TWalletStateValue = useMemo(
     () => ({
       isError: state.error,
       isLoading: state.loading,
-      // fetching,
-
-      // auth
       auth,
-      getAuth,
-
-      // balance
-      balance,
-      getBalance,
-
-      // get wallet to sign up
-
-      // summary
-      getSummary,
-      walletAddress,
-      // part of summary
       tokens,
+      balance,
+      walletAddress,
     }),
-    [getBalance, balance, walletAddress, auth, tokens, state.loading],
+    [balance, walletAddress, auth, tokens, state.loading],
+  );
+
+  const dispatchValue: TWalletDispatchValue = useMemo(
+    () => ({
+      getBalance,
+      getSummary,
+      getAuth,
+      getWallet: () => undefined,
+    }),
+    [getBalance],
   );
 
   return (
-    <WalletContext.Provider value={contextValue}>
-      {children}
-    </WalletContext.Provider>
+    <WalletStateContext.Provider value={stateValue}>
+      <WalletDispatchContext.Provider value={dispatchValue}>
+        {children}
+      </WalletDispatchContext.Provider>
+    </WalletStateContext.Provider>
   );
 }
+
+const useWalletStateContext = () => {
+  const ctx = useContext(WalletStateContext);
+  if (!ctx) {
+    throw new Error(
+      'you are not into Provider of the contexts, make sure the component wrapped in the Provider',
+    );
+  }
+
+  return ctx;
+};
+
+const useWalletDispatchContext = () => {
+  const ctx = useContext(WalletDispatchContext);
+  if (!ctx) {
+    throw new Error(
+      'you are not into Provider of the contexts, make sure the component wrapped in the Provider',
+    );
+  }
+
+  return ctx;
+};
+
+export { useWalletDispatchContext, useWalletStateContext, WalletProvider };

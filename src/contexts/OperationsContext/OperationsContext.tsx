@@ -17,40 +17,38 @@ import React, {
 import { TZKTService } from '../../api/tzktClient';
 import activityReducer, { Tstate, types } from '../../utils/activityReducer';
 import fetchReducer, { fetchTypes } from '../../utils/fetchReducer';
-import { useWalletContext } from '../WalletContext/WalletContext';
+import { useWalletStateContext } from '../WalletContext';
 
-type TOperationsContextValue = {
+type TOperationsStateValue = {
   lastId: number;
   activity: any;
-  dataHandler: () => void;
-  scrollHandler: (e: any) => void;
   loading: boolean;
   error: boolean;
 };
 
-const defaultState: TOperationsContextValue = {
+const operationsDefaultState: TOperationsStateValue = {
   lastId: 0,
   activity: [],
-  dataHandler: () => undefined,
-  scrollHandler: () => undefined,
   loading: false,
   error: false,
 };
 
-const OperationsContext = createContext(defaultState);
-export const useOperationsContext = () => {
-  const ctx = useContext(OperationsContext);
-  if (!ctx) {
-    throw new Error(
-      'you are not into Provider of the contexts, make sure the component wrapped in the Provider',
-    );
-  }
+const OperationsStateContext = createContext(operationsDefaultState);
 
-  return ctx;
+type TOperationsDispatchValue = {
+  dataHandler: () => void;
+  scrollHandler: (e: any) => void;
 };
 
+const operationsDefaultDispatch: TOperationsDispatchValue = {
+  dataHandler: () => undefined,
+  scrollHandler: () => undefined,
+};
+
+const OperationsDispatchContext = createContext(operationsDefaultDispatch);
+
 function OperationsProvider({ children }: { children: React.ReactNode }) {
-  const { walletAddress } = useWalletContext();
+  const { walletAddress } = useWalletStateContext();
   const [fetching, setFetching] = useState(false);
   const limit = useRef(false);
 
@@ -101,7 +99,6 @@ function OperationsProvider({ children }: { children: React.ReactNode }) {
           const { data } = rec;
           if (data.length < 5) {
             limit.current = true;
-            console.log(rec.data[rec.data.length - 1].id);
           }
           dispatch({
             type: types.GETACTIVITY,
@@ -139,23 +136,51 @@ function OperationsProvider({ children }: { children: React.ReactNode }) {
     [state.lastId],
   );
 
-  const contextValue = useMemo(
+  const stateValue: TOperationsStateValue = useMemo(
     () => ({
       lastId: state.lastId,
       activity: state.activity,
-      scrollHandler,
-      dataHandler,
       loading: loadingState.loading,
       error: loadingState.error,
     }),
     [state.activity, loadingState.loading],
   );
 
+  const dispatchValue: TOperationsDispatchValue = useMemo(
+    () => ({
+      scrollHandler,
+      dataHandler,
+    }),
+    [],
+  );
+
   return (
-    <OperationsContext.Provider value={contextValue}>
-      {children}
-    </OperationsContext.Provider>
+    <OperationsDispatchContext.Provider value={dispatchValue}>
+      <OperationsStateContext.Provider value={stateValue}>
+        {children}
+      </OperationsStateContext.Provider>
+    </OperationsDispatchContext.Provider>
   );
 }
 
-export { OperationsContext, OperationsProvider };
+const useOperationsDispatchContext = () => {
+  const context = useContext(OperationsDispatchContext);
+  if (!context) {
+    throw new Error('useOperationDispatchContext must be in OperationProvider');
+  }
+  return context;
+};
+
+const useOperationsStateContext = () => {
+  const context = useContext(OperationsStateContext);
+  if (!context) {
+    throw new Error('OperationsStateContext must be in OperationsProvider');
+  }
+  return context;
+};
+
+export {
+  useOperationsDispatchContext,
+  useOperationsStateContext,
+  OperationsProvider,
+};
