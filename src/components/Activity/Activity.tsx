@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
+
 import {
   useOperationsDispatchContext,
   useOperationsStateContext,
 } from '../../contexts/OperationsContext';
+import Preloader from '../Preloader';
 
 import styles from './Activity.module.scss';
 
 function Activity() {
+  // eslint-disable-next-line no-unused-vars
   const { activity, loading } = useOperationsStateContext();
   const { scrollHandler, dataHandler } = useOperationsDispatchContext();
 
@@ -57,7 +60,7 @@ function Activity() {
             </li>
           );
         })}
-        {loading ? <span>loading ...</span> : null}
+        {loading ? <Preloader /> : null}
       </ul>
     </div>
   );
