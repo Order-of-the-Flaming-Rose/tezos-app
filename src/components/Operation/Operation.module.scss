@@ -1,0 +1,26 @@
+@import './../../styles/index.scss';
+
+
+
+.item{
+    display: grid;
+    border: solid 0.1px rgb(214, 75, 120);
+
+    padding: 10px ;
+    grid-gap: 10px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto; 
+    justify-content: space-between;
+    border-radius: 7px; 
+    margin: 10px 0;
+    *{
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    }
+
+    :last-child{
+        grid-column: 1/3;
+      }
+
+}

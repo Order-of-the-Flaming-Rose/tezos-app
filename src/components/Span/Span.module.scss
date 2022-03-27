@@ -1,0 +1,21 @@
+@import './../../styles/index.scss';
+
+.span{
+    @extend %basic-font;
+    color: rgba(220, 220 ,220 ,0.8);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    *{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: currentColor;
+    font-family: inherit;
+    }
+    a{
+        
+        font-weight: 100;
+        &:hover{
+            color: #fff;
+        }
+    }
+}
