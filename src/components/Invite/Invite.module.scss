@@ -1,14 +1,11 @@
+@import './../../styles/index.scss';
 .invite {
     
     display: grid;
-    line-height: 34px;
     gap: 10px;
     padding: 10px 0;
-    color: rgba(220, 220 ,220 ,0.8);
-    font-family: 'IBM Plex Sans Arabic', sans-serif; 
-    font-weight: 400;
-    border-radius: 7px; 
-
+ 
+   
     &__links {
         display: grid;
         gap: 10px;

@@ -8,6 +8,7 @@ import styles from './Increase.module.scss';
 
 import Button from '../Button';
 import { useWalletStateContext } from '../../contexts/WalletContext';
+import Title from '../Title';
 
 const sendContractAddress = 'KT1B6WTvKkSZmW2882VVwQKuoxf2ubUoqgNZ';
 const approveContractAddress = 'KT1LmBK9q9KqpqCPdXuFWMYzB7a2RXaq4Htn';
@@ -64,8 +65,8 @@ function Increase() {
   };
 
   return (
-    <div className={styles.increase}>
-      <h3 className={styles.increase__title}>increase a balance</h3>
+    <div className={styles.increase__container}>
+      <Title size={20}>increase a balance</Title>
 
       <form action='#' className={styles.increase__form}>
         <input
@@ -86,9 +87,9 @@ function Increase() {
           </span>
         ) : null}
 
-        <Button onClick={() => approve()}>approve</Button>
+        <Button onClick={() => approve()}>APPROVE</Button>
 
-        <Button onClick={() => send()}>send</Button>
+        <Button onClick={() => send()}>SEND</Button>
       </form>
     </div>
   );

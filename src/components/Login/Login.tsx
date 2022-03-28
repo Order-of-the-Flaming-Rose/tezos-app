@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import styles from './Login.module.scss';
 
 import Form from '../Form';
+import Title from '../Title';
 
 const fields = [
   {
@@ -27,7 +28,7 @@ function Login() {
 
   return (
     <div className={styles.login}>
-      <h2 className={styles.login__title}>Log in</h2>
+      <Title size={20}>LOGIN</Title>
 
       <Form rules={rules} callback={() => console.log(1)} fields={fields}>
         <span className={styles.login__li}>

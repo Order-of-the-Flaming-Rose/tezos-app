@@ -1,0 +1,28 @@
+@import './../../styles/index.scss';
+
+
+
+.item{
+    display: grid;
+    @extend %border;
+
+    padding: 10px ;
+    grid-gap: 30px;
+    column-gap: 20px;
+    grid-template-columns: 1fr 1fr;
+    
+    grid-auto-flow: row;
+    justify-content: space-between;
+    border-radius: 7px; 
+    margin: 10px 0;
+    *{
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    }
+
+    :last-child{
+        grid-column: 1/3;
+      }
+
+}

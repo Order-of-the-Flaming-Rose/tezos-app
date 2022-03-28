@@ -2,7 +2,8 @@
 import * as yup from 'yup';
 import React from 'react';
 import styles from './Invite.module.scss';
-import SingleForm from '../Form/InviteForm';
+
+import InviteForm from '../Form/InviteForm';
 
 export type TInput = {
   [key: string]: string;
@@ -26,7 +27,6 @@ const discord = 'discord invite';
 function Invite() {
   return (
     <div className={styles.invite}>
-      Invite
       <div className={styles.invite__links}>
         {!telegram ? (
           <a
@@ -37,7 +37,7 @@ function Invite() {
             {telegram}
           </a>
         ) : (
-          <SingleForm
+          <InviteForm
             init={initialTelegram}
             rules={ruleTelegram}
             name='telegram'
@@ -52,7 +52,7 @@ function Invite() {
             {discord}
           </a>
         ) : (
-          <SingleForm
+          <InviteForm
             init={initialDiscord}
             rules={ruleDiscord}
             name='discord'

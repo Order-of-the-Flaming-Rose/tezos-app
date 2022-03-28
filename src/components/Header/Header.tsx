@@ -1,17 +1,17 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-console */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styles from './Header.module.scss';
 import headerLogo from '../../imgs/title.png';
 
-import LinkComponent from '../LinkComponent';
 import BurgerBtn from '../BurgerBtn';
 import userIcon from '../../imgs/user-svgrepo-com.svg';
 import {
   useWalletDispatchContext,
   useWalletStateContext,
 } from '../../contexts/WalletContext';
+import Link from '../Link';
 
 function Header() {
   const { auth } = useWalletStateContext();
@@ -19,9 +19,10 @@ function Header() {
   const history = useHistory();
 
   const [showNav, setShowNav] = useState(false);
-  const navClass = showNav
-    ? `${styles.header__nav} ${styles.header__show}`
-    : styles.header__nav;
+
+  let navClass: string;
+  if (showNav) navClass = `${styles.header__nav} ${styles.header__show}`;
+  else navClass = styles.header__nav;
 
   const handler = () => {
     if (auth) {
@@ -42,14 +43,14 @@ function Header() {
     }
   }, []);
 
-  const headerClass =
-    small && showNav
-      ? `${styles.header} ${styles.header__open}`
-      : showNav && !small
-      ? `${styles.header} ${styles.header__open}`
-      : small && !showNav
-      ? `${styles.header} ${styles.header__small}`
-      : styles.header;
+  let headerClass: string;
+
+  if (small && showNav) headerClass = `${styles.header} ${styles.header__open}`;
+  else if (showNav && !small)
+    headerClass = `${styles.header} ${styles.header__open}`;
+  else if (small && !showNav)
+    headerClass = `${styles.header} ${styles.header__small}`;
+  else headerClass = styles.header;
 
   const clickOutside = useCallback((e: MouseEvent): void => {
     if (navRef.current && !navRef.current?.contains(e.target)) {
@@ -81,8 +82,8 @@ function Header() {
       </div>
 
       <nav className={navClass} ref={navRef}>
-        <LinkComponent path='/summary' />
-        <LinkComponent path='/billing' />
+        <Link path='/summary' />
+        <Link path='/billing' />
       </nav>
 
       <button

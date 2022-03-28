@@ -1,0 +1,19 @@
+@import './../../styles/index.scss';
+
+.span{
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    *{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: currentColor;
+    font-family: inherit;
+    }
+    a{
+        font-size: 13px;
+        font-weight: 100;
+        @extend %hover;
+ 
+    }
+}

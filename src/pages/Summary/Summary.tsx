@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import Activity from '../../components/Activity';
 import Balance from '../../components/Balance';
 import Invite from '../../components/Invite';
+import Title from '../../components/Title';
 // import { useWalletContext } from '../../contexts/WalletContext/WalletContext';
 import styles from './Summary.module.scss';
 
@@ -16,7 +17,9 @@ function Summary() {
 
   return (
     <div className={styles.wallet}>
-      <h2 className={styles.wallet__title}>summary </h2>
+      <div className={styles.wallet__title}>
+        <Title size={2}> summary</Title>
+      </div>
       <div className={styles.wallet__balance}>
         <Balance />
       </div>

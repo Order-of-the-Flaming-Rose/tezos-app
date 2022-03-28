@@ -1,20 +1,5 @@
+@import './../../styles/index.scss';
+
 .button{
-    color: #fff;
-    font-size: 20px;
-    padding: 10px 10px;
-    border-radius: 50px;
-    background-color: rgb(62 62 70);
-    font-size: 13.333px;
-
-    color: rgba(220, 220 ,220 ,0.8);
-    font-family: 'IBM Plex Sans Arabic', sans-serif; 
-    font-weight: 400;
-
-    &:hover{
-        color: #fff;
-        
-            filter: brightness(150%);
-    
-    }
-
+@extend %basic-btn;
 }

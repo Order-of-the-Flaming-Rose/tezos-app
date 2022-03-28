@@ -3,15 +3,19 @@
 .header {
     padding: 10px 30px;
     display: grid;
+    justify-content: space-between;
+    align-items: center;
+
     grid-template-columns: 1fr auto auto;
     grid-template-rows: auto auto;
-    justify-content: space-between;
+    
     grid-column-gap: 15px;
     background-color: $main-bkg-grey;
+
     position: fixed;
     top: 0;
     width: 100%;
-    align-items: center;
+    
 
     @include media(564px) {
        padding: 10px;
@@ -26,15 +30,15 @@
         background: linear-gradient(to bottom,#000 0%,$main-bkg-grey 85%,   rgba(0, 0, 0, 0.01));
     }
 
+    //====================
     &__logo{
         max-width: 274px;
         min-width: 180px;
-        display: flex;
+
     }
 
     &__img{
         width: 100%;
-        align-items: center;
         object-fit: contain;
     }
 
@@ -43,24 +47,19 @@
         display: none;
 
         @include media(768px) {
-             display: block;
+            display: block;
             order: 1;
         }
     }
-
+    // ===================
     // nav
     &__nav {
-        height: auto;
         grid-row: 1/2;
         grid-column: 2/3;
-        display: flex;
-        align-items: center;
-        justify-items: flex-end;
+        @extend %flex-items-center;
         
 
         @include media(768px) {
-            margin-top: 20px;
-            column-gap: 0px;
             row-gap: 5px;
             display: none;
             grid-row: 2/3;
@@ -77,28 +76,20 @@
             align-items: stretch;
         }     
     }
+
+
     //login
-    &__login {
-        align-self: center;
-        @extend %btn;
+    &__login {       
         width: 45px;
         height: 45px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        &:hover{
-            filter: brightness(150%);
-        }
-   
-        @include media(564px) {
-            width: 45px;
-            overflow: hidden;
-         }
+        @extend %basic-btn;
+        position: relative;
+
     }
+
     &__icon{
         width: 15px;
         height: 20px;
-        color: #fff;
-
+        @extend %absolute-center;
     }
 }

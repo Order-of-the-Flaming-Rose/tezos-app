@@ -24,7 +24,7 @@
         padding: 50px 15px;
         border: solid 0.1px;
         border-radius: 15px;
-        border: solid 0.1px rgb(214, 75, 120);
+        @extend %border;
         height: fit-content;
         align-self: center;
     }

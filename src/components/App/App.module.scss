@@ -3,5 +3,6 @@
 .app {
     min-height: 100vh;
     background-color: $main-bkg-grey;
-    color: #fff;
+    @extend %font;
+   
 }

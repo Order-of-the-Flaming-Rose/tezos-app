@@ -1,39 +1,7 @@
+@import './../../styles/index.scss';
+
 .signup {
   
-    &__title{
-        grid-column: 2/3;
-        text-align: center;
-        font-size: 25px;
-        padding: 20px 0;
-    
-    }
-
-    &__form{
-       display: flex;
-       flex-direction: column;
-       row-gap: 20px;
-       font-size: 13.333px;
-       height: fit-content;
-
-    }
-    &__link{
-        background-color: transparent;
-    }
-    &__btn{
-        color: #fff;
-        font-size: 20px;
-        padding: 8px 8px;
-        border-radius: 50px;
-        background-color: rgb(62 62 70);
-        font-size: 13.333px;
-    }
-    &__error{
-        color: red;
-        border-width: 1px;
-        border-color: red;
-        font-size: 13.333px;
-    }
-
     &__link{
         background-color: transparent;
         color: currentColor;
@@ -42,11 +10,6 @@
 
     &__li{
         font-size: 13.333px;
-        color:rgb(214, 75, 120) ;
-
     }
-
-}
-.test{
-    border: solid;
+    
 }

@@ -6,6 +6,7 @@
     grid-template-rows: auto auto 1fr;
     gap: 20px;
     padding: 40px;
+
    
 
     @include media(768px){
@@ -16,16 +17,8 @@
   
     &__title{
         grid-row: 1/2;
-        grid-column: 1/3;
-        text-align: center;
-        font-size: 25px;
-        padding: 20px 0;
-        font-family: 'IBM Plex Sans Arabic', sans-serif; 
-        font-weight: 400;
-        color: rgba(220, 220 ,220 ,0.8);
-        text-transform: uppercase;
-        letter-spacing: 3px;
-        
+        grid-column: 1/3;        
+       
         @include media(768px){
             grid-column: 1/2;
         }
@@ -35,10 +28,9 @@
     &__balance{
         grid-row: 2/3;
         grid-column: 1/2;
-        height: 400px;
         height: auto;
-        border: solid 0.1px rgb(214, 75, 120);
-        border-radius: 7px; 
+        @extend %border;
+        @extend %border-radius;
         font-size: 16px;
         @include media(768px){
             grid-column: 1/2;
@@ -49,7 +41,6 @@
     &__activity{
         grid-row: 3/4;
         grid-column: 1/2;
-        font-size: 25px;
         @include media(768px){
             grid-column: 1/2;
             grid-row: 4/5;
@@ -57,10 +48,10 @@
        
     }
     &__invite{
-        border: solid;
+
         padding: 10px;
-        border: solid 0.1px rgb(214, 75, 120);
-        border-radius: 7px; 
+        @extend %border;
+        @extend %border-radius; 
         @include media(768px){
             grid-column: 1/2;
             grid-row: 2/3;
