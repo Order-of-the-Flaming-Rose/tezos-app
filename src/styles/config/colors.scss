@@ -8,8 +8,7 @@ $secondary: #8283C4;
 $grey: #C4C4C4;
 $grey-lighten-1: #E5E5E5;
 
-$main-bkg-dark:#121212;
-$main-bkg-grey:#282933;
+
 
 $shadow-1: 0px 4px 20px rgba(0, 0, 0, 0.1);
 $grey-lighten-2: #F9F9F9;
@@ -24,4 +23,46 @@ $colors: (
   'secondary': $secondary,
   'grey': $grey,
   'grey-lighten-1': $grey-lighten-1
-)
+);
+
+
+//==============
+
+$error: red;
+
+//input border 
+$border:rgb(214, 75, 120);
+
+$main-bkg-dark:#121212;
+
+//app main background
+$main-bkg-grey:#282933;
+
+
+
+//btn background
+//input background
+$background-2: rgb(62, 62, 70);
+
+
+//btn background hover 
+$background-3: #3e3e46;
+
+
+$text-color: rgba(220, 220 ,220 ,0.8);
+$text-hover: #fff;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,39 +1,23 @@
+@import './../../styles/index.scss';
+
 .login {
 
     display: flex;
     flex-direction: column;
     row-gap: 10px;
-    
-    &__title{
-        text-align: center;   
-    }
 
-    &__form{
-       display: flex;
-       flex-direction: column;
-       row-gap: 20px;
-       font-size: 13.333px;
-    }
-
-    &__link{
+    &__link {
         background-color: transparent;
         color: currentColor;
         font-weight: bolder;
     }
 
-    &__li{
+    &__li {
         font-size: 13.333px;
-        color:rgb(214, 75, 120) ;
-
     }
 
-       
-    &__btn{
-        color: #fff;
-        font-size: 20px;
-        padding: 8px 8px;
-        border-radius: 50px;
-        background-color: rgb(62 62 70);
-        font-size: 13.333px;
+
+    &__btn {
+        @extend %basic-btn;
     }
 }

@@ -1,81 +1,19 @@
-/*fonts properties*/
-
-
-%basic-font{
-  font-family: 'IBM Plex Sans Arabic', sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  @media screen and (max-width: 520px) {
-    font-size: 14px;  
-  }
-}
-
-%input-font{
-  font-size: 13.33px;
-  font-weight: 300;
-  line-height: 16px;
-  
-}
-
-%btn-font{
-  font-size: 18px;
-  line-height: 22px; 
-  text-transform: uppercase;
-  @media screen and (max-width: 520px) {
-    font-size: 16px;
-  }
-}
-
-%title-font{
-  font-size: 23px;
-  font-weight: 300;
-  line-height: 30px;
-  @media screen and (max-width: 520px) {
-    font-size: 18px;
-  }
-}
-
-%link-font{
-  font-size: 16px;
-  @media screen and (max-width: 520px) {
-    font-size: 14px;  
-  }
-
-}
-
 
 /* flex properties */
-%flex {
-  display: flex
+
+%flex-items-center{
+  display: flex;
+  align-items: center;
+  justify-items: center;
+
 }
-%inline-flex {
-  display: inline-flex;
-}
-%flex-wrap {
-  flex-wrap: wrap;
-}
-%flex-no-wrap {
-  flex-wrap: nowrap;
-}
-%flex-column {
-  flex-direction: column;
+%flex-content-center{
+  display: flex;
+  align-content: center;
+  justify-content: center;
+
 }
 
-/* display properties */
-%border-box {
-  box-sizing: border-box;
-}
-
-/* theme properties */
-%theme-color {
-  color: var(--theme-color);
-}
-%theme-bg-color {
-  background-color: var(--theme-color);
-}
-%theme-bg-gradient {
-  background-color: var(--theme-gradient-color);
-}
 
 /* position properties */
 %sticky {
@@ -104,17 +42,51 @@
   transform: translate(-50%, -50%);
 }
 //==================
-%btn{
-  background-color: rgb(62 62 70);
-  border: none;
-  padding: 10px 20px;
-  height: fit-content;
-  border-radius: 50px;
-  font-weight: 500;
-  color: #fff;
-  @extend %btn-font;
 
-  &:hover {
-    background-color: #3e3e46;
+
+
+%border{
+  border: solid 0.1px $border;
+  
 }
+
+%border-radius{
+  border-radius: 7px; 
+}
+
+%font{
+  font-family: 'IBM Plex Sans Arabic', sans-serif; 
+  color: $text-color;
+  font-weight: 400;
+}
+
+%basic-btn{
+  border-radius: 50px;
+  padding: 10px;
+  height: 42px;
+  font-size: 16px;
+  font-weight: 400;
+  
+  @extend %font;
+  background-color:  $background-2;
+
+  &:hover{
+    filter: brightness(150%);
+    color: #fff;
+  }
+
+}
+
+%hover{
+  &:hover{
+    filter: brightness(150%);
+    color: #fff;
+  }
+}
+
+%form{
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+
 }

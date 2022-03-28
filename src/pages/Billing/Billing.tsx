@@ -5,10 +5,8 @@ import styles from './Billing.module.scss';
 
 function Billing() {
   return (
-    <div className={styles.billing}>
-      <div className={styles.billing__body}>
-        <Increase />
-      </div>
+    <div className={styles.billing__body}>
+      <Increase />
     </div>
   );
 }

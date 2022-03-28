@@ -10,6 +10,7 @@ import styles from './SignUp.module.scss';
 import { API } from '../../api';
 import Form from '../Form';
 import Button from '../Button';
+import Title from '../Title';
 
 const network = NetworkType.HANGZHOUNET;
 const rpcUrl = 'https://hangzhounet.api.tez.ie';
@@ -93,9 +94,18 @@ function SignUp() {
 
   return (
     <div className={styles.signup}>
-      <h2 className={styles.signup__title}>Sign Up </h2>
+      <Title size={20}>SIGN UP</Title>
       <Form rules={validateRules} callback={formSubmit} fields={fields}>
-        hallo
+        <span className={styles.signup__li}>
+          already have an account{' '}
+          <button
+            type='button'
+            className={styles.signup__link}
+            onClick={() => history.push('/home/login')}
+          >
+            login
+          </button>
+        </span>
       </Form>
     </div>
   );

@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import styles from './LinkComponent.module.scss';
+import styles from './Link.module.scss';
 
-function LinkComponent({ path }: { path: string }) {
+function Link({ path }: { path: string }) {
   const history = useHistory();
   return (
     <li>
@@ -19,4 +19,4 @@ function LinkComponent({ path }: { path: string }) {
   );
 }
 
-export default LinkComponent;
+export default Link;

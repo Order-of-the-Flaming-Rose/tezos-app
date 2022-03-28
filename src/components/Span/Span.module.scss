@@ -1,8 +1,7 @@
 @import './../../styles/index.scss';
 
 .span{
-    @extend %basic-font;
-    color: rgba(220, 220 ,220 ,0.8);
+
     overflow: hidden;
     text-overflow: ellipsis;
     *{
@@ -12,10 +11,9 @@
     font-family: inherit;
     }
     a{
-        
+        font-size: 13px;
         font-weight: 100;
-        &:hover{
-            color: #fff;
-        }
+        @extend %hover;
+ 
     }
 }

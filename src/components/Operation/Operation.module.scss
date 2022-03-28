@@ -4,12 +4,14 @@
 
 .item{
     display: grid;
-    border: solid 0.1px rgb(214, 75, 120);
+    @extend %border;
 
     padding: 10px ;
-    grid-gap: 10px;
+    grid-gap: 30px;
+    column-gap: 20px;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto auto auto; 
+    
+    grid-auto-flow: row;
     justify-content: space-between;
     border-radius: 7px; 
     margin: 10px 0;
