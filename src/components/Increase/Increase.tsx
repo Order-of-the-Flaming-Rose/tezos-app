@@ -4,11 +4,13 @@ import { TezosToolkit } from '@taquito/taquito';
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import { NetworkType } from '@airgap/beacon-sdk';
 
+import { useState } from 'react';
 import styles from './Increase.module.scss';
 
 import Button from '../Button';
 import { useWalletStateContext } from '../../contexts/WalletContext';
 import Title from '../Title';
+import Progress from '../Progress';
 
 const sendContractAddress = 'KT1B6WTvKkSZmW2882VVwQKuoxf2ubUoqgNZ';
 const approveContractAddress = 'KT1LmBK9q9KqpqCPdXuFWMYzB7a2RXaq4Htn';
@@ -23,6 +25,8 @@ const Tezos = new TezosToolkit(rpcUrl);
 let activeAccount: any;
 function Increase() {
   const { tokens } = useWalletStateContext();
+
+  const [loading, setLoading] = useState(false);
 
   // let activeAccount: any;
 
@@ -40,9 +44,12 @@ function Increase() {
       const firstOp = await approve.methods
         .approve(sendContractAddress, 0)
         .send({ fee: 10000 });
+      setLoading(true);
       await firstOp.confirmation(3);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -58,16 +65,19 @@ function Increase() {
 
       const send = await Tezos.wallet.at(sendContractAddress);
       const secondOp = await send.methods.send(0).send({ fee: 10000 });
+      setLoading(true);
       await secondOp.confirmation(3);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className={styles.increase__container}>
       <Title size={20}>increase a balance</Title>
-
+      {loading ? <Progress /> : null}
       <form action='#' className={styles.increase__form}>
         <input
           className={styles.increase__input}
