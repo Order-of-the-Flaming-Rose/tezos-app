@@ -1,25 +1,27 @@
 @import './../../styles/index.scss';
-.increase{
 
-    &__container{
+.increase {
+
+    &__container {
         @extend %border;
         padding: 20px 40px 40px;
         border-radius: 17px;
-
+        position: relative;
     }
 
-    &__form{  
+    &__form {
         margin-top: 20px;
         max-width: 450px;
         @extend %form;
         grid-column: 2/3;
-      
+
     }
-    &__allowance{
+
+    &__allowance {
         padding-left: 10px;
     }
 
-    &__input{
+    &__input {
         margin: auto;
         width: 100%;
         border-radius: 18px;
@@ -28,9 +30,9 @@
         font-weight: 400;
         padding: 0px 25px;
         height: 40px;
-        font-size: 16px;   
+        font-size: 16px;
 
-        &:focus{
+        &:focus {
             filter: brightness(150%);
 
         }
